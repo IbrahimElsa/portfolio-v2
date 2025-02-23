@@ -1,7 +1,8 @@
-// app/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -15,21 +16,39 @@ export default function Home() {
   return (
     <main className="bg-zinc-900 min-h-screen">
       {/* Hero Section */}
-      <section id="about" className="relative text-gray-100 px-4 sm:px-10 h-screen flex items-center justify-center -mb-20">
+      <section
+        id="about"
+        className="relative text-gray-100 px-4 sm:px-10 h-screen flex items-center justify-center -mb-20"
+      >
         <div className="flex flex-col sm:flex-row items-center justify-center space-y-6 sm:space-y-0 sm:space-x-12 text-center sm:text-left">
           <div>
-            <h1 className="font-bold text-4xl sm:text-6xl md:text-8xl lg:whitespace-nowrap">Ibrahim Elsawalhi</h1>
-            <h2 className="text-2xl sm:text-4xl lg:whitespace-nowrap mt-2">Full Stack Developer</h2>
+            <h1 className="font-bold text-4xl sm:text-6xl md:text-8xl lg:whitespace-nowrap">
+              Ibrahim Elsawalhi
+            </h1>
+            <h2 className="text-2xl sm:text-4xl lg:whitespace-nowrap mt-2">
+              Full Stack Developer
+            </h2>
           </div>
 
           <div className="flex flex-row sm:flex-col space-x-6 sm:space-x-0 sm:space-y-6 sm:pl-10">
-            <a href="https://github.com/IbrahimElsa" target="_blank" className="text-gray-100 hover:text-gray-300">
+            <a
+              href="https://github.com/IbrahimElsa"
+              target="_blank"
+              className="text-gray-100 hover:text-gray-300"
+            >
               <i className="devicon-github-original text-4xl sm:text-5xl transform hover:scale-110 transition-transform duration-200"></i>
             </a>
-            <a href="https://linkedin.com/in/ibrahim-elsawalhi" target="_blank" className="text-gray-100 hover:text-gray-300">
+            <a
+              href="https://linkedin.com/in/ibrahim-elsawalhi"
+              target="_blank"
+              className="text-gray-100 hover:text-gray-300"
+            >
               <i className="devicon-linkedin-plain text-4xl sm:text-5xl transform hover:scale-110 transition-transform duration-200"></i>
             </a>
-            <a href="mailto:ibrahim@example.com" className="text-gray-100 hover:text-gray-300">
+            <a
+              href="mailto:ibrahim@example.com"
+              className="text-gray-100 hover:text-gray-300"
+            >
               <i className="fas fa-envelope text-4xl sm:text-5xl transform hover:scale-110 transition-transform duration-200"></i>
             </a>
           </div>
@@ -38,41 +57,78 @@ export default function Home() {
 
       <div className="flex justify-center">
         <button className="text-gray-400 hover:text-gray-100 transition duration-200 focus:outline-none">
-          <svg className="w-8 h-8 sm:w-10 sm:h-10 animate-bounce" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+          <svg
+            className="w-8 h-8 sm:w-10 sm:h-10 animate-bounce"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </button>
       </div>
 
       {/* Technologies Section */}
-      <section id="skills" className="text-gray-100 px-4 sm:px-10 h-auto flex flex-col items-center mt-20">
-        <h1 className="text-4xl sm:text-6xl font-bold mb-20 text-center">Technologies</h1>
+      <section
+        id="skills"
+        className="text-gray-100 px-4 sm:px-10 h-auto flex flex-col items-center mt-20"
+      >
+        <h1 className="text-4xl sm:text-6xl font-bold mb-20 text-center">
+          Technologies
+        </h1>
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-8 sm:gap-10 md:gap-12 w-full max-w-6xl">
           {technologies.map((tech, index) => (
-            <div key={tech.name} className="group flex flex-col items-center space-y-2">
-              <i className={`${tech.icon} text-6xl sm:text-7xl grayscale transition-all duration-300 group-hover:grayscale-0 ${tech.hoverClass}`}></i>
-              <span className="text-sm sm:text-base font-medium">{tech.name}</span>
-            </div>
+            <motion.div
+              key={tech.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="group flex flex-col items-center space-y-2"
+            >
+              <i
+                className={`${tech.icon} text-6xl sm:text-7xl grayscale transition-all duration-300 group-hover:grayscale-0 ${tech.hoverClass}`}
+              ></i>
+              <span className="text-sm sm:text-base font-medium">
+                {tech.name}
+              </span>
+            </motion.div>
           ))}
         </div>
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="text-white px-4 sm:px-10 py-8 sm:mt-40">
-        <h2 className="text-4xl sm:text-6xl font-bold mb-20 text-center -mt-16">Projects</h2>
+      <section
+        id="projects"
+        className="text-white px-4 sm:px-10 py-8 sm:mt-40"
+      >
+        <h2 className="text-4xl sm:text-6xl font-bold mb-20 text-center -mt-16">
+          Projects
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <a
+            <motion.a
               key={index}
               href={project.link}
               target="_blank"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
               className="project relative overflow-hidden rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
             >
               <div className="absolute inset-0 z-0 overflow-hidden">
-                <img
+                <Image
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-300 transform scale-110 group-hover:scale-125"
+                  fill
+                  className="object-cover transition-transform duration-300 transform scale-110 group-hover:scale-125"
                 />
                 <div className="absolute inset-0 bg-black opacity-60"></div>
               </div>
@@ -88,7 +144,7 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-            </a>
+            </motion.a>
           ))}
         </div>
       </section>
@@ -115,7 +171,7 @@ const projects = [
   {
     title: 'Gym E-commerce Page',
     link: 'https://rossthesloth-gym.netlify.app',
-    image: 'Gym-page.png',
+    image: '/Gym-page.png',
     technologies: [
       { name: 'HTML', icon: 'devicon-html5-plain' },
       { name: 'CSS', icon: 'devicon-css3-plain' },
@@ -127,7 +183,7 @@ const projects = [
   {
     title: 'Fitness Tracker',
     link: 'https://fitness-app-00.web.app',
-    image: 'LogoFitnessApp.webp',
+    image: '/LogoFitnessApp.webp',
     technologies: [
       { name: 'React', icon: 'devicon-react-original' },
       { name: 'CSS', icon: 'devicon-css3-plain' },
@@ -139,7 +195,7 @@ const projects = [
   {
     title: 'Stocks Analysis Chart',
     link: 'https://github.com/IbrahimElsa/Project1_Stocks',
-    image: 'StocksProjectSS.png',
+    image: '/StocksProjectSS.png',
     technologies: [
       { name: 'C#', icon: 'devicon-csharp-plain' },
     ],
