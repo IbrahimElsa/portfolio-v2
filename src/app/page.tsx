@@ -7,8 +7,38 @@ import Image from 'next/image';
 export default function Home() {
   const [mounted, setMounted] = useState(false);
 
+  // Ensure this code runs only on the client
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // Notify via email on first visit (ignoring bots) using localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Only notify once per browser using localStorage
+      if (localStorage.getItem('visited')) return;
+
+      const userAgent = navigator.userAgent;
+
+      // Ignore bots using a simple regex check on the user agent string
+      if (/bot|crawler|spider|crawling/i.test(userAgent)) return;
+
+      // Determine device type (basic mobile/desktop check)
+      const deviceType = /Mobi|Android/i.test(userAgent) ? 'Mobile' : 'Desktop';
+
+      // Mark visitor as notified
+      localStorage.setItem('visited', 'true');
+
+      // Send notification to the API endpoint
+      fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ deviceType, userAgent })
+      })
+        .then(res => res.json())
+        .then(data => console.log('Email notification sent:', data))
+        .catch(err => console.error('Failed to send email notification:', err));
+    }
   }, []);
 
   if (!mounted) return null;
