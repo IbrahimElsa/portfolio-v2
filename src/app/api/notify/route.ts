@@ -4,7 +4,6 @@ export async function POST(request: Request) {
   try {
     const { deviceType, userAgent } = await request.json();
 
-    // Ensure your Resend API key is stored in the environment variable RESEND_API_KEY
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
@@ -13,7 +12,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Send the email via Resend's API
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -21,12 +19,12 @@ export async function POST(request: Request) {
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        from: 'nosend@resend.com', // Replace with your sender email
-        to: 'ibrahimelsawalhi0@gmail.com', // Replace with your receiving email
+        from: 'your-verified-domain@resend.dev', 
+        to: 'ibrahim.elsawalhi@outlook.com', 
         subject: `New Visitor: ${deviceType}`,
         html: `<p>A new visitor has visited your website.</p>
-               <p><strong>Device Type:</strong> ${deviceType}</p>
-               <p><strong>User Agent:</strong> ${userAgent}</p>`
+              <p><strong>Device Type:</strong> ${deviceType}</p>
+              <p><strong>User Agent:</strong> ${userAgent}</p>`
       }),
     });
 
