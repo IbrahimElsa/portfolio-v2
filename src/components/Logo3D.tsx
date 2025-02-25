@@ -12,6 +12,9 @@ export default function Logo3D() {
   
   useEffect(() => {
     if (!mountRef.current) return
+    
+    // Capture the current value of the ref
+    const currentMount = mountRef.current
 
     // Scene setup
     const scene = new THREE.Scene()
@@ -28,7 +31,7 @@ export default function Logo3D() {
     })
     renderer.setSize(150, 150) // Increased size from 120 to 150
     renderer.setClearColor(0x000000, 0)
-    mountRef.current.appendChild(renderer.domElement)
+    currentMount.appendChild(renderer.domElement)
     
     // Enhanced lighting setup for better reflection
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.2)
@@ -49,8 +52,8 @@ export default function Logo3D() {
     directionalLight3.position.set(5, 0, 2)
     scene.add(directionalLight3)
     
-    // Variable to hold the loaded model for rotation
-    let spinningModel = new THREE.Group()
+    // Variable to hold the loaded model for rotation - changed to const
+    const spinningModel = new THREE.Group()
     scene.add(spinningModel)
     
     // Load the GLB model
@@ -145,12 +148,10 @@ export default function Logo3D() {
     }
     window.addEventListener('resize', handleResize)
     
-    // Cleanup on unmount
+    // Cleanup on unmount - using the captured currentMount reference
     return () => {
       window.removeEventListener('resize', handleResize)
-      if (mountRef.current) {
-        mountRef.current.removeChild(renderer.domElement)
-      }
+      currentMount.removeChild(renderer.domElement)
     }
   }, [])
   
