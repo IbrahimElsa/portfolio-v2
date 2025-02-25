@@ -7,7 +7,6 @@ import Image from 'next/image';
 export default function Home() {
   const [mounted, setMounted] = useState(false);
 
-  // Ensure this code runs only on the client
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -20,13 +19,10 @@ export default function Home() {
 
       const userAgent = navigator.userAgent;
 
-      // Ignore bots using a simple regex check on the user agent string
       if (/bot|crawler|spider|crawling/i.test(userAgent)) return;
 
-      // Determine device type (basic mobile/desktop check)
       const deviceType = /Mobi|Android/i.test(userAgent) ? 'Mobile' : 'Desktop';
 
-      // Mark visitor as notified
       localStorage.setItem('visited', 'true');
 
       // Send notification to the API endpoint
