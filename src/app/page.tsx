@@ -12,30 +12,44 @@ export default function Home() {
   }, []);
 
   // Notify via email on first visit (ignoring bots) using localStorage
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Only notify once per browser using localStorage
-      if (localStorage.getItem('visited')) return;
+  // In page.tsx, update the useEffect that handles notifications
+useEffect(() => {
+  if (typeof window !== 'undefined') {
+    // Only notify once per browser using localStorage
+    if (localStorage.getItem('visited')) return;
 
-      const userAgent = navigator.userAgent;
+    const userAgent = navigator.userAgent;
 
-      if (/bot|crawler|spider|crawling/i.test(userAgent)) return;
+    // Enhanced bot detection with the same identifiers as the server
+    const BOT_IDENTIFIERS = [
+      'bot', 'spider', 'crawl', 'crawler', 'prerender', 'headless', 
+      'lighthouse', 'pingdom', 'pagespeed', 'googlebot', 
+      'chrome-lighthouse', 'gtmetrix'
+    ];
+    
+    // Check if user agent contains any bot identifier
+    const isBot = BOT_IDENTIFIERS.some(identifier => 
+      userAgent.toLowerCase().includes(identifier.toLowerCase())
+    );
+    
+    // Skip notification for bots
+    if (isBot) return;
 
-      const deviceType = /Mobi|Android/i.test(userAgent) ? 'Mobile' : 'Desktop';
+    const deviceType = /Mobi|Android/i.test(userAgent) ? 'Mobile' : 'Desktop';
 
-      localStorage.setItem('visited', 'true');
+    localStorage.setItem('visited', 'true');
 
-      // Send notification to the API endpoint
-      fetch('/api/notify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ deviceType, userAgent })
-      })
-        .then(res => res.json())
-        .then(data => console.log('Email notification sent:', data))
-        .catch(err => console.error('Failed to send email notification:', err));
-    }
-  }, []);
+    // Send notification to the API endpoint
+    fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ deviceType, userAgent })
+    })
+      .then(res => res.json())
+      .then(data => console.log('Email notification sent:', data))
+      .catch(err => console.error('Failed to send email notification:', err));
+  }
+}, []);
 
   if (!mounted) return null;
 
