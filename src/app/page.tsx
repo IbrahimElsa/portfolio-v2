@@ -1,55 +1,57 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { useTitleAnimation } from '@/lib/animations';
+import { TextMorph } from '@/components/ui/text-morph';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
+  const { activeTitle, handleTitleHover, resetTitleWithDelay } = useTitleAnimation('Technologies');
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   // Notify via email on first visit (ignoring bots) using localStorage
-  // In page.tsx, update the useEffect that handles notifications
-useEffect(() => {
-  if (typeof window !== 'undefined') {
-    // Only notify once per browser using localStorage
-    if (localStorage.getItem('visited')) return;
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Only notify once per browser using localStorage
+      if (localStorage.getItem('visited')) return;
 
-    const userAgent = navigator.userAgent;
+      const userAgent = navigator.userAgent;
 
-    // Enhanced bot detection with the same identifiers as the server
-    const BOT_IDENTIFIERS = [
-      'bot', 'spider', 'crawl', 'crawler', 'prerender', 'headless', 
-      'lighthouse', 'pingdom', 'pagespeed', 'googlebot', 
-      'chrome-lighthouse', 'gtmetrix'
-    ];
-    
-    // Check if user agent contains any bot identifier
-    const isBot = BOT_IDENTIFIERS.some(identifier => 
-      userAgent.toLowerCase().includes(identifier.toLowerCase())
-    );
-    
-    // Skip notification for bots
-    if (isBot) return;
+      // Enhanced bot detection with the same identifiers as the server
+      const BOT_IDENTIFIERS = [
+        'bot', 'spider', 'crawl', 'crawler', 'prerender', 'headless', 
+        'lighthouse', 'pingdom', 'pagespeed', 'googlebot', 
+        'chrome-lighthouse', 'gtmetrix'
+      ];
+      
+      // Check if user agent contains any bot identifier
+      const isBot = BOT_IDENTIFIERS.some(identifier => 
+        userAgent.toLowerCase().includes(identifier.toLowerCase())
+      );
+      
+      // Skip notification for bots
+      if (isBot) return;
 
-    const deviceType = /Mobi|Android/i.test(userAgent) ? 'Mobile' : 'Desktop';
+      const deviceType = /Mobi|Android/i.test(userAgent) ? 'Mobile' : 'Desktop';
 
-    localStorage.setItem('visited', 'true');
+      localStorage.setItem('visited', 'true');
 
-    // Send notification to the API endpoint
-    fetch('/api/notify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ deviceType, userAgent })
-    })
-      .then(res => res.json())
-      .then(data => console.log('Email notification sent:', data))
-      .catch(err => console.error('Failed to send email notification:', err));
-  }
-}, []);
+      // Send notification to the API endpoint
+      fetch('/api/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ deviceType, userAgent })
+      })
+        .then(res => res.json())
+        .then(data => console.log('Email notification sent:', data))
+        .catch(err => console.error('Failed to send email notification:', err));
+    }
+  }, []);
 
   if (!mounted) return null;
 
@@ -62,12 +64,18 @@ useEffect(() => {
       >
         <div className="flex flex-col sm:flex-row items-center justify-center space-y-6 sm:space-y-0 sm:space-x-12 text-center sm:text-left">
           <div>
-            <h1 className="font-bold text-4xl sm:text-6xl md:text-8xl lg:whitespace-nowrap">
+            <TextMorph 
+              as="h1" 
+              className="font-bold text-4xl sm:text-6xl md:text-8xl lg:whitespace-nowrap"
+            >
               Ibrahim Elsawalhi
-            </h1>
-            <h2 className="text-2xl sm:text-4xl lg:whitespace-nowrap mt-2">
+            </TextMorph>
+            <TextMorph 
+              as="h2" 
+              className="text-2xl sm:text-4xl lg:whitespace-nowrap mt-2"
+            >
               Full Stack Developer
-            </h2>
+            </TextMorph>
           </div>
 
           <div className="flex flex-row sm:flex-col space-x-6 sm:space-x-0 sm:space-y-6 sm:pl-10">
@@ -119,9 +127,13 @@ useEffect(() => {
         id="skills"
         className="text-gray-100 px-4 sm:px-10 h-auto flex flex-col items-center mt-20"
       >
-        <h1 className="text-4xl sm:text-6xl font-bold mb-20 text-center">
-          Technologies
-        </h1>
+        <TextMorph 
+          as="h1" 
+          className="text-4xl sm:text-6xl font-bold mb-20 text-center"
+        >
+          {activeTitle}
+        </TextMorph>
+        
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-8 sm:gap-10 md:gap-12 w-full max-w-6xl">
           {technologies.map((tech, index) => (
             <motion.div
@@ -130,14 +142,17 @@ useEffect(() => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="group flex flex-col items-center space-y-2"
+              className="group flex flex-col items-center"
+              onHoverStart={() => handleTitleHover(tech.name)}
+              onHoverEnd={resetTitleWithDelay}
+              onTap={() => {
+                handleTitleHover(tech.name);
+                resetTitleWithDelay();
+              }}
             >
               <i
                 className={`${tech.icon} text-6xl sm:text-7xl grayscale transition-all duration-300 group-hover:grayscale-0 ${tech.hoverClass}`}
               ></i>
-              <span className="text-sm sm:text-base font-medium">
-                {tech.name}
-              </span>
             </motion.div>
           ))}
         </div>
@@ -146,7 +161,7 @@ useEffect(() => {
       {/* Projects Section */}
       <section
         id="projects"
-        className="text-white px-4 sm:px-10 py-8 sm:mt-40"
+        className="text-white px-4 sm:px-10 py-8 sm:mt-50 mt-40"
       >
         <h2 className="text-4xl sm:text-6xl font-bold mb-20 text-center md:-mt-16">
           Projects
