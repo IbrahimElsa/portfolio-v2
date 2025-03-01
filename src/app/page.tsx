@@ -1,17 +1,84 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useTitleAnimation } from '@/lib/animations';
 import { TextMorph } from '@/components/ui/text-morph';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
-  const { activeTitle, handleTitleHover, resetTitleWithDelay } = useTitleAnimation('Technologies');
+  const [activeTitle, setActiveTitle] = useState('Technologies');
+  const [activeTech, setActiveTech] = useState<string | null>(null);
+  const titleTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const techTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isHoveringRef = useRef<boolean>(false);
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // Handle technology click
+  const handleTechClick = (techName: string) => {
+    // Clear any existing timers
+    if (titleTimerRef.current) clearTimeout(titleTimerRef.current);
+    if (techTimerRef.current) clearTimeout(techTimerRef.current);
+
+    // If clicking the same tech, toggle it off
+    if (activeTech === techName) {
+      setActiveTech(null);
+      setActiveTitle('Technologies');
+    } else {
+      // Otherwise, set this tech as active
+      setActiveTech(techName);
+      setActiveTitle(techName);
+      
+      // Set timers to reset both after 2 seconds
+      titleTimerRef.current = setTimeout(() => {
+        setActiveTitle('Technologies');
+      }, 2000);
+      
+      techTimerRef.current = setTimeout(() => {
+        setActiveTech(null);
+      }, 2000);
+    }
+  };
+
+  // Handle hover start
+  const handleHoverStart = (techName: string) => {
+    isHoveringRef.current = true;
+    
+    // Clear previous title timer if exists
+    if (titleTimerRef.current) {
+      clearTimeout(titleTimerRef.current);
+    }
+    
+    // Update title to tech name
+    setActiveTitle(techName);
+  };
+
+  // Handle hover end
+  const handleHoverEnd = () => {
+    isHoveringRef.current = false;
+    
+    // Set timer to reset title after 2 seconds
+    if (titleTimerRef.current) {
+      clearTimeout(titleTimerRef.current);
+    }
+    
+    titleTimerRef.current = setTimeout(() => {
+      // Only reset if no tech is active (from clicking)
+      if (!activeTech) {
+        setActiveTitle('Technologies');
+      }
+    }, 2000);
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (titleTimerRef.current) clearTimeout(titleTimerRef.current);
+      if (techTimerRef.current) clearTimeout(techTimerRef.current);
+    };
   }, []);
 
   // Notify via email on first visit (ignoring bots) using localStorage
@@ -143,23 +210,29 @@ export default function Home() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               className="group flex flex-col items-center"
-              onHoverStart={() => handleTitleHover(tech.name)}
-              onHoverEnd={resetTitleWithDelay}
-              onTap={() => {
-                handleTitleHover(tech.name);
-                resetTitleWithDelay();
-              }}
+              onHoverStart={() => handleHoverStart(tech.name)}
+              onHoverEnd={handleHoverEnd}
+              onClick={() => handleTechClick(tech.name)}
             >
               <motion.i
-                className={`${tech.icon} text-6xl sm:text-7xl grayscale group-hover:grayscale-0 ${tech.hoverClass}`}
+                className={`
+                  ${tech.icon} 
+                  text-6xl sm:text-7xl 
+                  cursor-pointer
+                  ${activeTech === tech.name ? 'active-tech scale-110' : 'grayscale'} 
+                  group-hover:grayscale-0 
+                  ${tech.hoverClass}
+                `}
+                animate={{ 
+                  scale: activeTech === tech.name ? 1.2 : 1,
+                }}
+                transition={{ duration: 0.2 }}
                 whileHover={{ 
                   scale: 1.2,
                   transition: { 
                     scale: { duration: 0.1, ease: "easeOut" },
-                    rotate: { duration: 0.3, ease: "easeInOut" } 
                   }
                 }}
-                whileTap={{ scale: 0.95 }}
               />
             </motion.div>
           ))}

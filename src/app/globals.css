@@ -76,6 +76,64 @@
     }
 }
 
+/* Add these styles to your src/app/globals.css file */
+
+/* Enhanced active tech styling */
+.active-tech {
+    filter: grayscale(0%) !important;
+    transform: scale(1.2);
+    transition: transform 0.2s ease, filter 0.2s ease, color 0.2s ease;
+  }
+  
+  /* Tech-specific color classes when active */
+  .devicon-html5-plain.active-tech {
+    color: #E34F26 !important;
+  }
+  
+  .devicon-css3-plain.active-tech {
+    color: #1572B6 !important;
+  }
+  
+  .devicon-javascript-plain.active-tech {
+    color: #F7DF1E !important;
+  }
+  
+  .devicon-react-original.active-tech {
+    color: #61DAFB !important;
+  }
+  
+  .devicon-python-plain.active-tech {
+    color: #3776AB !important;
+  }
+  
+  .devicon-nodejs-plain.active-tech {
+    color: #339933 !important;
+  }
+  
+  .devicon-mongodb-plain.active-tech {
+    color: #47A248 !important;
+  }
+  
+  .devicon-mysql-plain.active-tech {
+    color: #4479A1 !important;
+  }
+  
+  .devicon-firebase-plain.active-tech {
+    color: #FFCA28 !important;
+  }
+  
+  .devicon-tailwindcss-plain.active-tech {
+    color: #06B6D4 !important;
+  }
+  
+  .devicon-bootstrap-plain.active-tech {
+    color: #7952B3 !important;
+  }
+  
+  .devicon-csharp-plain.active-tech {
+    color: #239120 !important;
+  }
+
 :root {
     --background: oklch(1 0 0);
     --foreground: oklch(0.13 0.028 261.692);
