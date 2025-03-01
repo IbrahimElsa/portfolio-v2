@@ -150,9 +150,17 @@ export default function Home() {
                 resetTitleWithDelay();
               }}
             >
-              <i
-                className={`${tech.icon} text-6xl sm:text-7xl grayscale transition-all duration-300 group-hover:grayscale-0 ${tech.hoverClass}`}
-              ></i>
+              <motion.i
+                className={`${tech.icon} text-6xl sm:text-7xl grayscale group-hover:grayscale-0 ${tech.hoverClass}`}
+                whileHover={{ 
+                  scale: 1.2,
+                  transition: { 
+                    scale: { duration: 0.1, ease: "easeOut" },
+                    rotate: { duration: 0.3, ease: "easeInOut" } 
+                  }
+                }}
+                whileTap={{ scale: 0.95 }}
+              />
             </motion.div>
           ))}
         </div>
