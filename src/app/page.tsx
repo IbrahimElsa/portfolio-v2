@@ -1,124 +1,30 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { TextMorph } from '@/components/ui/text-morph';
+import { useTechAnimations } from '@/lib/tech-animations';
+import { useVisitorNotification } from '@/lib/notify-service';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
-  const [activeTitle, setActiveTitle] = useState('Technologies');
-  const [activeTech, setActiveTech] = useState<string | null>(null);
-  const titleTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const techTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const isHoveringRef = useRef<boolean>(false);
+  
+  // Use the tech animations hook
+  const { 
+    activeTitle, 
+    activeTech, 
+    handleTechClick, 
+    handleHoverStart, 
+    handleHoverEnd 
+  } = useTechAnimations();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Handle technology click
-  const handleTechClick = (techName: string) => {
-    // Clear any existing timers
-    if (titleTimerRef.current) clearTimeout(titleTimerRef.current);
-    if (techTimerRef.current) clearTimeout(techTimerRef.current);
-
-    // If clicking the same tech, toggle it off
-    if (activeTech === techName) {
-      setActiveTech(null);
-      setActiveTitle('Technologies');
-    } else {
-      // Otherwise, set this tech as active
-      setActiveTech(techName);
-      setActiveTitle(techName);
-      
-      // Set timers to reset both after 2 seconds
-      titleTimerRef.current = setTimeout(() => {
-        setActiveTitle('Technologies');
-      }, 2000);
-      
-      techTimerRef.current = setTimeout(() => {
-        setActiveTech(null);
-      }, 2000);
-    }
-  };
-
-  // Handle hover start
-  const handleHoverStart = (techName: string) => {
-    isHoveringRef.current = true;
-    
-    // Clear previous title timer if exists
-    if (titleTimerRef.current) {
-      clearTimeout(titleTimerRef.current);
-    }
-    
-    // Update title to tech name
-    setActiveTitle(techName);
-  };
-
-  // Handle hover end
-  const handleHoverEnd = () => {
-    isHoveringRef.current = false;
-    
-    // Set timer to reset title after 2 seconds
-    if (titleTimerRef.current) {
-      clearTimeout(titleTimerRef.current);
-    }
-    
-    titleTimerRef.current = setTimeout(() => {
-      // Only reset if no tech is active (from clicking)
-      if (!activeTech) {
-        setActiveTitle('Technologies');
-      }
-    }, 2000);
-  };
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (titleTimerRef.current) clearTimeout(titleTimerRef.current);
-      if (techTimerRef.current) clearTimeout(techTimerRef.current);
-    };
-  }, []);
-
-  // Notify via email on first visit (ignoring bots) using localStorage
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Only notify once per browser using localStorage
-      if (localStorage.getItem('visited')) return;
-
-      const userAgent = navigator.userAgent;
-
-      // Enhanced bot detection with the same identifiers as the server
-      const BOT_IDENTIFIERS = [
-        'bot', 'spider', 'crawl', 'crawler', 'prerender', 'headless', 
-        'lighthouse', 'pingdom', 'pagespeed', 'googlebot', 
-        'chrome-lighthouse', 'gtmetrix'
-      ];
-      
-      // Check if user agent contains any bot identifier
-      const isBot = BOT_IDENTIFIERS.some(identifier => 
-        userAgent.toLowerCase().includes(identifier.toLowerCase())
-      );
-      
-      // Skip notification for bots
-      if (isBot) return;
-
-      const deviceType = /Mobi|Android/i.test(userAgent) ? 'Mobile' : 'Desktop';
-
-      localStorage.setItem('visited', 'true');
-
-      // Send notification to the API endpoint
-      fetch('/api/notify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ deviceType, userAgent })
-      })
-        .then(res => res.json())
-        .then(data => console.log('Email notification sent:', data))
-        .catch(err => console.error('Failed to send email notification:', err));
-    }
-  }, []);
+  // Use the visitor notification hook
+  useVisitorNotification();
 
   if (!mounted) return null;
 
