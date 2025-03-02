@@ -17,7 +17,7 @@ export default function Home() {
     handleTechClick, 
     handleHoverStart, 
     handleHoverEnd 
-  } = useTechAnimations();
+  } = useTechAnimations('Technologies', technologies);
 
   useEffect(() => {
     setMounted(true);

@@ -8,8 +8,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 export default function Logo3D() {
   const mountRef = useRef<HTMLDivElement>(null)
 
-  // Bright cyan color for better contrast
-  const logoColor = 0x00ffff 
+  // Stainless steel color - silver with a slight blue tint
+  const logoColor = 0xD1D6DE 
   
   useEffect(() => {
     if (!mountRef.current) return
@@ -35,29 +35,57 @@ export default function Logo3D() {
     })
     renderer.setSize(logoSize, logoSize)
     renderer.setClearColor(0x000000, 0)
+    
+    // Enable physically correct lighting
+    interface RendererWithLighting extends THREE.WebGLRenderer {
+      useLegacyLights?: boolean;
+      physicallyCorrectLights?: boolean;
+    }
+    
+    // Then use this specific type instead of any
+    if ('useLegacyLights' in renderer) {
+      (renderer as RendererWithLighting).useLegacyLights = false;
+    } else if ('physicallyCorrectLights' in renderer) {
+      (renderer as RendererWithLighting).physicallyCorrectLights = true;
+    }
+    
+    // Add tone mapping for better visual quality
+    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.toneMappingExposure = 1.0
+    
     currentMount.appendChild(renderer.domElement)
     
-    // Enhanced lighting setup for better contrast
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5)
+    // Enhanced lighting setup for stainless steel effect
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
     scene.add(ambientLight)
     
-    // Main key light from front
-    const directionalLight1 = new THREE.DirectionalLight(0xffffff, 2.5)
-    directionalLight1.position.set(0, 0, 5)
+    // Main key light from front-right (cooler tone)
+    const directionalLight1 = new THREE.DirectionalLight(0xF8F9FF, 1.8)
+    directionalLight1.position.set(2, 1, 3)
     scene.add(directionalLight1)
     
-    // Fill lights
-    const directionalLight2 = new THREE.DirectionalLight(0xffffff, 1.8)
-    directionalLight2.position.set(-5, 0, 2)
+    // Fill light from left (warmer tone)
+    const directionalLight2 = new THREE.DirectionalLight(0xFFF8F0, 1.2)
+    directionalLight2.position.set(-3, 0, 2)
     scene.add(directionalLight2)
     
-    const directionalLight3 = new THREE.DirectionalLight(0xffffff, 1.8)
-    directionalLight3.position.set(5, 0, 2)
+    // Rim light from back
+    const directionalLight3 = new THREE.DirectionalLight(0xFFFFFF, 1.5)
+    directionalLight3.position.set(0, 3, -3)
     scene.add(directionalLight3)
+    
+    // Subtle cool-toned environment light from bottom
+    const directionalLight4 = new THREE.DirectionalLight(0xD6E9FF, 0.6)
+    directionalLight4.position.set(0, -2, 1)
+    scene.add(directionalLight4)
     
     // Spinning model group
     const spinningModel = new THREE.Group()
     scene.add(spinningModel)
+    
+    // Create cube environment map for reflections
+    const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(256)
+    cubeRenderTarget.texture.type = THREE.HalfFloatType
     
     // Load the GLB model
     const loader = new GLTFLoader()
@@ -79,16 +107,25 @@ export default function Logo3D() {
         const scale = 2.7 / maxDim
         model.scale.set(scale, scale, scale)
         
-        // Apply enhanced material
+        // Create stainless steel material
+        const stainlessSteelMaterial = new THREE.MeshPhysicalMaterial({
+          color: logoColor,
+          metalness: 0.85,          // High metalness for steel look
+          roughness: 0.25,          // Low roughness for polished appearance
+          reflectivity: 0.9,        // High reflectivity
+          clearcoat: 0.2,           // Slight clear coat for extra shine
+          clearcoatRoughness: 0.3,  // Some variation in the clear coat
+          envMapIntensity: 1.2,     // Stronger reflections
+        });
+        
+        // Apply stainless steel material
         model.traverse((child) => {
           if (child instanceof THREE.Mesh) {
-            child.material = new THREE.MeshStandardMaterial({
-              color: logoColor,
-              metalness: 0.9,
-              roughness: 0.1,
-              emissive: new THREE.Color(logoColor).multiplyScalar(0.4),
-              emissiveIntensity: 0.6
-            });
+            child.material = stainlessSteelMaterial;
+            
+            // Cast and receive shadows
+            child.castShadow = true;
+            child.receiveShadow = true;
           }
         })
         
