@@ -50,29 +50,6 @@ export default function Home() {
               Full Stack Developer
             </TextMorph>
           </div>
-
-          <div className="flex flex-row sm:flex-col space-x-6 sm:space-x-0 sm:space-y-6 sm:pl-10">
-            <a
-              href="https://github.com/IbrahimElsa"
-              target="_blank"
-              className="text-gray-100 hover:text-gray-300"
-            >
-              <i className="devicon-github-original text-4xl sm:text-5xl transform hover:scale-110 transition-transform duration-200"></i>
-            </a>
-            <a
-              href="https://linkedin.com/in/ibrahim-elsawalhi"
-              target="_blank"
-              className="text-gray-100 hover:text-gray-300"
-            >
-              <i className="devicon-linkedin-plain text-4xl sm:text-5xl transform hover:scale-110 transition-transform duration-200"></i>
-            </a>
-            <a
-              href="mailto:ibrahim@example.com"
-              className="text-gray-100 hover:text-gray-300"
-            >
-              <i className="fas fa-envelope text-4xl sm:text-5xl transform hover:scale-110 transition-transform duration-200"></i>
-            </a>
-          </div>
         </div>
       </section>
 
