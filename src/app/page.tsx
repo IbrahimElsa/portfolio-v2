@@ -190,7 +190,7 @@ const projects = [
   {
     title: 'Gym E-commerce Page',
     link: 'https://rossthesloth-gym.netlify.app',
-    image: '/Gym-page.png',
+    image: '/Gym-page.jpg',
     technologies: [
       { name: 'HTML', icon: 'devicon-html5-plain' },
       { name: 'CSS', icon: 'devicon-css3-plain' },

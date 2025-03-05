@@ -24,41 +24,40 @@ export default function Navbar() {
   };
 
   return (
-    <nav 
-      className={cn(
-        "fixed w-full z-50 transition-all duration-300"
-      )}
-    >
-      <div className="flex items-center justify-between max-w-7xl mx-auto">
-        {/* Logo area */}
-        <div className="w-10 h-10 sm:w-14 sm:h-14 py-16 pl-4 sm:pl-6"></div>
-
-        {/* Empty space in the middle */}
+    <nav className="fixed w-full z-20 transition-all duration-300">
+      {/* Main navigation bar aligned with the middle of logo */}
+      <div className="flex items-center">
+        {/* Left space for logo - ensures consistent positioning with the 3D logo */}
+        <div className="w-24 sm:w-28"></div>
+        
+        {/* Spacer to push content to the right */}
         <div className="flex-grow"></div>
-
-        {/* Social links - desktop */}
-        <div className="hidden md:flex items-center space-x-20 py-20 pr-4 sm:pr-6">
+        
+        {/* Social links - desktop - positioned to align with middle of the logo */}
+        <div className="hidden md:flex items-center pr-6 mt-[54px] sm:mt-[74px]">
           <SocialLink 
             href="https://github.com/IbrahimElsa" 
             icon="devicon-github-original" 
             label="GitHub"
           />
+          <span className="text-gray-400 text-lg mx-3">✕</span>
           <SocialLink 
             href="https://linkedin.com/in/ibrahim-elsawalhi" 
             icon="devicon-linkedin-plain" 
             label="LinkedIn"
           />
+          <span className="text-gray-400 text-lg mx-3">✕</span>
           <SocialLink 
             href="mailto:ibrahim@example.com" 
             icon="fas fa-envelope" 
             label="Email"
           />
         </div>
-
-        {/* Mobile menu button */}
+        
+        {/* Mobile menu button - aligned with the middle of the logo */}
         <button 
           onClick={toggleMenu} 
-          className="md:hidden text-gray-100 focus:outline-none py-16 pr-4 sm:pr-6"
+          className="md:hidden text-gray-100 focus:outline-none pr-4 sm:pr-6 mt-[54px] sm:mt-[74px]"
           aria-label="Toggle mobile menu"
         >
           <svg 
@@ -123,8 +122,6 @@ export default function Navbar() {
   );
 }
 
-
-
 // Social link component
 function SocialLink({ 
   href, 
@@ -144,7 +141,7 @@ function SocialLink({
       rel="noopener noreferrer"
       className={cn(
         "text-gray-300 hover:text-white transition-all duration-200",
-        isMobile ? "text-3xl" : "text-2xl md:text-5xl hover:scale-110"
+        isMobile ? "text-3xl" : "text-2xl sm:text-3xl hover:scale-110"
       )}
       aria-label={label}
     >
