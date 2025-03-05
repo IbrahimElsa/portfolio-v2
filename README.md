@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio - Ibrahim Elsawalhi
 
-## Getting Started
+## Overview
+This repository contains the source code for Ibrahim Elsawalhi's personal portfolio website. The site showcases Ibrahim's skills as a Full Stack Developer through an interactive and visually appealing interface built with modern web technologies.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 3D Logo Animation
+- Custom 3D logo rendered using Three.js
+- Stainless steel material effect with realistic lighting
+- Responsive sizing for different device types
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Interactive UI Elements
+- Text morphing animations for headings using Framer Motion
+- Technology icons that respond to hover and click interactions
+- Color transitions for technology icons when interacted with
+- Automatic technology showcase for mobile users
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Project Showcase
+- Visual grid of project cards with hover effects
+- Each project displays relevant technologies used
+- Links to live demos or GitHub repositories
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Responsive Design
+- Fully responsive layout that adapts to different screen sizes
+- Mobile-optimized navigation with collapsible menu
+- Adjusted content and animations for optimal mobile experience
 
-## Learn More
+### Dark Theme
+- Elegant dark theme with carefully selected color palette
+- Custom CSS variables for consistent theming
+- Smooth color transitions and animations
 
-To learn more about Next.js, take a look at the following resources:
+### Analytics
+- Visitor notification system that tracks new visitors
+- Bot detection to filter out crawler traffic
+- Email notifications for new site visitors via Resend API
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technology Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Frontend
+- Next.js (React framework)
+- TypeScript for type safety
+- Tailwind CSS for styling
+- Framer Motion for animations
+- Three.js for 3D rendering
 
-## Deploy on Vercel
+### UI Components
+- Custom Text Morph component for animated text
+- Interactive tech icon grid with animation hooks
+- Responsive navbar with social links
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Utilities
+- Bot detection algorithm
+- Device type detection
+- Local storage for tracking return visitors
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+The codebase is organized into:
+- `src/app`: Next.js app router components and layouts
+- `src/components`: Reusable UI components
+- `src/lib`: Utility functions and custom hooks
+
+## Visual Style
+The portfolio features a sleek, modern dark theme with accent colors that highlight when interacting with technology icons. The 3D logo serves as a distinctive branding element, while the overall aesthetic maintains professional sophistication with subtle animations that enhance the user experience without overwhelming it.
