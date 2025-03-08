@@ -24,7 +24,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed w-full z-20 transition-all duration-300">
+    <nav className={`fixed w-full z-20 transition-all duration-300 ${scrolled ? 'bg-zinc-900/80 backdrop-blur-sm shadow-lg' : ''}`}>
       {/* Main navigation bar aligned with the middle of logo */}
       <div className="flex items-center">
         {/* Left space for logo - ensures consistent positioning with the 3D logo */}

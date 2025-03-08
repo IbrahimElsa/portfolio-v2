@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { TextMorph } from '@/components/ui/text-morph';
 import { useTechAnimations } from '@/lib/tech-animations';
 import { useVisitorNotification } from '@/lib/notify-service';
+import IntroWrapper from '@/components/IntroWrapper'; // Only importing IntroWrapper now
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -21,6 +22,13 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true);
+    
+    // Add temporary CSS to body to ensure dark background during animation
+    document.body.classList.add('bg-zinc-900');
+    
+    return () => {
+      document.body.classList.remove('bg-zinc-900');
+    };
   }, []);
 
   // Use the visitor notification hook
@@ -28,146 +36,149 @@ export default function Home() {
 
   if (!mounted) return null;
 
+  // Wrap the content with the intro animation
   return (
-    <main className="bg-zinc-900 min-h-screen">
-      {/* Hero Section */}
-      <section
-        id="about"
-        className="relative text-gray-100 px-4 sm:px-10 h-screen flex items-center justify-center -mb-20"
-      >
-        <div className="flex flex-col sm:flex-row items-center justify-center space-y-6 sm:space-y-0 sm:space-x-12 text-center sm:text-left">
-          <div>
-            <TextMorph 
-              as="h1" 
-              className="font-bold text-4xl sm:text-6xl md:text-8xl lg:whitespace-nowrap"
-            >
-              Ibrahim Elsawalhi
-            </TextMorph>
-            <TextMorph 
-              as="h2" 
-              className="text-2xl sm:text-4xl lg:whitespace-nowrap mt-2"
-            >
-              Full Stack Developer
-            </TextMorph>
-          </div>
-        </div>
-      </section>
-
-      <div className="flex justify-center">
-        <button className="text-gray-400 hover:text-gray-100 transition duration-200 focus:outline-none">
-          <svg
-            className="w-8 h-8 sm:w-10 sm:h-10 animate-bounce"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </button>
-      </div>
-
-      {/* Technologies Section */}
-      <section
-        id="skills"
-        className="text-gray-100 px-4 sm:px-10 h-auto flex flex-col items-center mt-20"
-      >
-        <TextMorph 
-          as="h1" 
-          className="text-4xl sm:text-6xl font-bold mb-20 text-center"
+    <IntroWrapper>
+      <main className="bg-zinc-900 min-h-screen">
+        {/* Hero Section - adjusted to allow more space for logo */}
+        <section
+          id="about"
+          className="relative text-gray-100 px-4 sm:px-10 h-screen flex items-center justify-center -mb-20"
         >
-          {activeTitle}
-        </TextMorph>
-        
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-8 sm:gap-10 md:gap-12 w-full max-w-6xl">
-          {technologies.map((tech, index) => (
-            <motion.div
-              key={tech.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="group flex flex-col items-center"
-              onHoverStart={() => handleHoverStart(tech.name)}
-              onHoverEnd={handleHoverEnd}
-              onClick={() => handleTechClick(tech.name)}
+          <div className="flex flex-col sm:flex-row items-center justify-center space-y-6 sm:space-y-0 sm:space-x-12 text-center sm:text-left">
+            <div>
+              <TextMorph 
+                as="h1" 
+                className="font-bold text-4xl sm:text-6xl md:text-8xl lg:whitespace-nowrap"
+              >
+                Ibrahim Elsawalhi
+              </TextMorph>
+              <TextMorph 
+                as="h2" 
+                className="text-2xl sm:text-4xl lg:whitespace-nowrap mt-2"
+              >
+                Full Stack Developer
+              </TextMorph>
+            </div>
+          </div>
+        </section>
+
+        <div className="flex justify-center">
+          <button className="text-gray-400 hover:text-gray-100 transition duration-200 focus:outline-none">
+            <svg
+              className="w-8 h-8 sm:w-10 sm:h-10 animate-bounce"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <motion.i
-                className={`
-                  ${tech.icon} 
-                  text-6xl sm:text-7xl 
-                  cursor-pointer
-                  ${activeTech === tech.name ? 'active-tech scale-110' : 'grayscale'} 
-                  group-hover:grayscale-0 
-                  ${tech.hoverClass}
-                `}
-                animate={{ 
-                  scale: activeTech === tech.name ? 1.2 : 1,
-                }}
-                transition={{ duration: 0.2 }}
-                whileHover={{ 
-                  scale: 1.2,
-                  transition: { 
-                    scale: { duration: 0.1, ease: "easeOut" },
-                  }
-                }}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M19 9l-7 7-7-7"
               />
-            </motion.div>
-          ))}
+            </svg>
+          </button>
         </div>
-      </section>
 
-      {/* Projects Section */}
-      <section
-        id="projects"
-        className="text-white px-4 sm:px-10 py-8 sm:mt-50 mt-40"
-      >
-        <h2 className="text-4xl sm:text-6xl font-bold mb-20 text-center md:-mt-16">
-          Projects
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <motion.a
-              key={index}
-              href={project.link}
-              target="_blank"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="project relative overflow-hidden rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-            >
-              <div className="absolute inset-0 z-0 overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-300 transform scale-110 group-hover:scale-125"
+        {/* Technologies Section */}
+        <section
+          id="skills"
+          className="text-gray-100 px-4 sm:px-10 h-auto flex flex-col items-center mt-20"
+        >
+          <TextMorph 
+            as="h1" 
+            className="text-4xl sm:text-6xl font-bold mb-20 text-center"
+          >
+            {activeTitle}
+          </TextMorph>
+          
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-8 sm:gap-10 md:gap-12 w-full max-w-6xl">
+            {technologies.map((tech, index) => (
+              <motion.div
+                key={tech.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="group flex flex-col items-center"
+                onHoverStart={() => handleHoverStart(tech.name)}
+                onHoverEnd={handleHoverEnd}
+                onClick={() => handleTechClick(tech.name)}
+              >
+                <motion.i
+                  className={`
+                    ${tech.icon} 
+                    text-6xl sm:text-7xl 
+                    cursor-pointer
+                    ${activeTech === tech.name ? 'active-tech scale-110' : 'grayscale'} 
+                    group-hover:grayscale-0 
+                    ${tech.hoverClass}
+                  `}
+                  animate={{ 
+                    scale: activeTech === tech.name ? 1.2 : 1,
+                  }}
+                  transition={{ duration: 0.2 }}
+                  whileHover={{ 
+                    scale: 1.2,
+                    transition: { 
+                      scale: { duration: 0.1, ease: "easeOut" },
+                    }
+                  }}
                 />
-                <div className="absolute inset-0 bg-black opacity-60"></div>
-              </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
 
-              <div className="relative z-10 p-6 pt-48 h-full flex flex-col justify-end text-white">
-                <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
-                <div className="flex flex-wrap items-center gap-4 mb-2 text-xs sm:text-sm">
-                  {project.technologies.map((tech, techIndex) => (
-                    <div key={techIndex} className="flex items-center space-x-2">
-                      <i className={`${tech.icon} text-3xl sm:text-4xl`}></i>
-                      <span>{tech.name}</span>
-                    </div>
-                  ))}
+        {/* Projects Section */}
+        <section
+          id="projects"
+          className="text-white px-4 sm:px-10 py-8 sm:mt-50 mt-40"
+        >
+          <h2 className="text-4xl sm:text-6xl font-bold mb-20 text-center md:-mt-16">
+            Projects
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, index) => (
+              <motion.a
+                key={index}
+                href={project.link}
+                target="_blank"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="project relative overflow-hidden rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+              >
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-300 transform scale-110 group-hover:scale-125"
+                  />
+                  <div className="absolute inset-0 bg-black opacity-60"></div>
                 </div>
-              </div>
-            </motion.a>
-          ))}
-        </div>
-      </section>
-    </main>
+
+                <div className="relative z-10 p-6 pt-48 h-full flex flex-col justify-end text-white">
+                  <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
+                  <div className="flex flex-wrap items-center gap-4 mb-2 text-xs sm:text-sm">
+                    {project.technologies.map((tech, techIndex) => (
+                      <div key={techIndex} className="flex items-center space-x-2">
+                        <i className={`${tech.icon} text-3xl sm:text-4xl`}></i>
+                        <span>{tech.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        </section>
+      </main>
+    </IntroWrapper>
   );
 }
 
