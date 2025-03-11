@@ -6,12 +6,11 @@ import Image from 'next/image';
 import { TextMorph } from '@/components/ui/text-morph';
 import { useTechAnimations } from '@/lib/tech-animations';
 import { useVisitorNotification } from '@/lib/notify-service';
-import IntroWrapper from '@/components/IntroWrapper'; // Only importing IntroWrapper now
+import IntroWrapper from '@/components/IntroWrapper'; 
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   
-  // Use the tech animations hook
   const { 
     activeTitle, 
     activeTech, 
@@ -23,7 +22,6 @@ export default function Home() {
   useEffect(() => {
     setMounted(true);
     
-    // Add temporary CSS to body to ensure dark background during animation
     document.body.classList.add('bg-zinc-900');
     
     return () => {
@@ -31,21 +29,19 @@ export default function Home() {
     };
   }, []);
 
-  // Use the visitor notification hook
   useVisitorNotification();
 
   if (!mounted) return null;
 
-  // Wrap the content with the intro animation
+
   return (
     <IntroWrapper>
       <main className="bg-zinc-900 min-h-screen">
-        {/* Hero Section - adjusted to allow more space for logo */}
         <section
           id="about"
           className="relative text-gray-100 px-4 sm:px-10 h-screen flex items-center justify-center -mb-20"
         >
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-6 sm:space-y-0 sm:space-x-12 text-center sm:text-left">
+          <div className="flex flex-col items-center justify-center text-center">
             <div>
               <TextMorph 
                 as="h1" 
@@ -59,6 +55,35 @@ export default function Home() {
               >
                 Full Stack Developer
               </TextMorph>
+              
+              <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                <a
+                  href="/Ibrahim_Resume_OnePage.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-all duration-300 hover:scale-105 shadow-md flex items-center justify-center space-x-2 w-48 sm:w-auto"
+                  aria-label="Download Resume"
+                >
+                  <i className="fas fa-file-alt"></i>
+                  <span>View Resume</span>
+                </a>
+                
+
+                <a
+                  href="#projects"
+                  className="px-6 py-3 bg-secondary/40 text-secondary-foreground rounded-md hover:bg-secondary/60 transition-all duration-300 hover:scale-105 backdrop-blur-sm shadow-md flex items-center justify-center space-x-2 w-48 sm:w-auto"
+                  aria-label="View Projects"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('projects')?.scrollIntoView({ 
+                      behavior: 'smooth' 
+                    });
+                  }}
+                >
+                  <i className="fas fa-code"></i>
+                  <span>View Projects</span>
+                </a>
+              </div>
             </div>
           </div>
         </section>
@@ -82,7 +107,6 @@ export default function Home() {
           </button>
         </div>
 
-        {/* Technologies Section */}
         <section
           id="skills"
           className="text-gray-100 px-4 sm:px-10 h-auto flex flex-col items-center mt-20"
@@ -132,7 +156,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Projects Section */}
         <section
           id="projects"
           className="text-white px-4 sm:px-10 py-8 sm:mt-50 mt-40"
