@@ -24,29 +24,29 @@ export default function Navbar() {
   };
 
   return (
-    <nav className={`fixed w-full z-20 transition-all duration-300 ${scrolled ? 'bg-zinc-900/80 backdrop-blur-sm shadow-lg' : ''}`}>
-      {/* Main navigation bar aligned with the middle of logo */}
-      <div className="flex items-center">
-        {/* Left space for logo - ensures consistent positioning with the 3D logo */}
+    <nav className="fixed w-full z-20 transition-all duration-300">
+      {/* Using a fixed height container for more consistent positioning */}
+      <div className="h-[100px] sm:h-[150px] flex items-center relative">
+        {/* Reserved space for logo */}
         <div className="w-24 sm:w-28"></div>
         
         {/* Spacer to push content to the right */}
         <div className="flex-grow"></div>
         
-        {/* Social links - desktop - positioned to align with middle of the logo */}
-        <div className="hidden md:flex items-center pr-6 mt-[54px] sm:mt-[74px]">
+        {/* Social links - desktop - using vertical centering */}
+        <div className="hidden md:flex items-center space-x-6 pr-6 absolute top-1/2 right-0 transform -translate-y-1/2">
           <SocialLink 
             href="https://github.com/IbrahimElsa" 
             icon="devicon-github-original" 
             label="GitHub"
           />
-          <span className="text-gray-400 text-lg mx-3">✕</span>
+          <span className="text-gray-400 text-lg">✕</span>
           <SocialLink 
             href="https://linkedin.com/in/ibrahim-elsawalhi" 
             icon="devicon-linkedin-plain" 
             label="LinkedIn"
           />
-          <span className="text-gray-400 text-lg mx-3">✕</span>
+          <span className="text-gray-400 text-lg">✕</span>
           <SocialLink 
             href="mailto:ibrahim@example.com" 
             icon="fas fa-envelope" 
@@ -54,10 +54,10 @@ export default function Navbar() {
           />
         </div>
         
-        {/* Mobile menu button - aligned with the middle of the logo */}
+        {/* Mobile menu button - absolutely positioned at vertical center */}
         <button 
           onClick={toggleMenu} 
-          className="md:hidden text-gray-100 focus:outline-none pr-4 sm:pr-6 mt-[54px] sm:mt-[74px]"
+          className="md:hidden text-gray-100 focus:outline-none pr-4 sm:pr-6 absolute top-1/2 right-0 transform -translate-y-1/2"
           aria-label="Toggle mobile menu"
         >
           <svg 
@@ -92,7 +92,7 @@ export default function Navbar() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="md:hidden bg-zinc-800 mt-3 mx-4 rounded-lg shadow-lg overflow-hidden"
+          className="md:hidden bg-zinc-800 mt-1 mx-4 rounded-lg shadow-lg overflow-hidden"
         >
           <div className="px-4 py-4">
             <div className="flex justify-around py-3">
