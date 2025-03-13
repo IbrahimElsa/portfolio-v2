@@ -7,6 +7,7 @@ import { TextMorph } from '@/components/ui/text-morph';
 import { useTechAnimations } from '@/lib/tech-animations';
 import { useVisitorNotification } from '@/lib/notify-service';
 import IntroWrapper from '@/components/IntroWrapper'; 
+import HeroSection from '@/components/HeroSection';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -37,75 +38,8 @@ export default function Home() {
   return (
     <IntroWrapper>
       <main className="bg-zinc-900 min-h-screen">
-        <section
-          id="about"
-          className="relative text-gray-100 px-4 sm:px-10 h-screen flex items-center justify-center -mb-20"
-        >
-          <div className="flex flex-col items-center justify-center text-center">
-            <div>
-              <TextMorph 
-                as="h1" 
-                className="font-bold text-4xl sm:text-6xl md:text-8xl lg:whitespace-nowrap"
-              >
-                Ibrahim Elsawalhi
-              </TextMorph>
-              <TextMorph 
-                as="h2" 
-                className="text-2xl sm:text-4xl lg:whitespace-nowrap mt-2"
-              >
-                Full Stack Developer
-              </TextMorph>
-              
-              <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-                <a
-                  href="/Ibrahim_Resume_OnePage.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-all duration-300 hover:scale-105 shadow-md flex items-center justify-center space-x-2 w-48 sm:w-auto"
-                  aria-label="Download Resume"
-                >
-                  <i className="fas fa-file-alt"></i>
-                  <span>View Resume</span>
-                </a>
-                
-
-                <a
-                  href="#projects"
-                  className="px-6 py-3 bg-secondary/40 text-secondary-foreground rounded-md hover:bg-secondary/60 transition-all duration-300 hover:scale-105 backdrop-blur-sm shadow-md flex items-center justify-center space-x-2 w-48 sm:w-auto"
-                  aria-label="View Projects"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById('projects')?.scrollIntoView({ 
-                      behavior: 'smooth' 
-                    });
-                  }}
-                >
-                  <i className="fas fa-code"></i>
-                  <span>View Projects</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="flex justify-center">
-          <button className="text-gray-400 hover:text-gray-100 transition duration-200 focus:outline-none">
-            <svg
-              className="w-8 h-8 sm:w-10 sm:h-10 animate-bounce"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
-        </div>
+        {/* Use the hero section with updated name */}
+        <HeroSection />
 
         <section
           id="skills"
