@@ -110,7 +110,7 @@ export default function HeroSection() {
             className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8"
           >
             <a
-              href="/Ibrahim_Resume_OnePage.pdf"
+              href="/IbrahimElsawalhi_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-4 bg-[#7928CA] hover:bg-[#8A3DD9]
