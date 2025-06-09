@@ -1,52 +1,67 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
   
-  // Toggle mobile menu
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  // Social links data for reuse
+  const socialLinks = [
+    { href: "https://github.com/IbrahimElsa", icon: "devicon-github-original", label: "GitHub" },
+    { href: "https://linkedin.com/in/ibrahim-elsawalhi", icon: "devicon-linkedin-plain", label: "LinkedIn" },
+    { href: "mailto:ibrahim@example.com", icon: "fas fa-envelope", label: "Email" }
+  ];
 
+  // Handle scroll events
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // Calculate navbar styles based on scroll position
+  const isScrolled = scrollPosition > 50;
+  
   return (
-    <nav className="fixed w-full z-20 transition-all duration-300">
-      {/* Main navigation bar aligned with the middle of logo */}
-      <div className="flex items-center">
-        {/* Left space for logo - ensures consistent positioning with the 3D logo */}
-        <div className="w-24 sm:w-28"></div>
+    <nav 
+      className={cn(
+        "fixed w-full z-20 transition-all duration-300",
+        isScrolled ? "bg-zinc-900/70 backdrop-blur-sm shadow-md" : "bg-transparent"
+      )}
+    >
+      {/* Fixed-position bar for absolute positioning of elements */}
+      <div className="relative h-[120px]">
+        {/* Logo area - left side, no positioning needed as it's already there */}
+        <div className="absolute left-0 top-0 w-[120px] h-[120px]"></div>
         
-        {/* Spacer to push content to the right */}
-        <div className="flex-grow"></div>
-        
-        {/* Social links - desktop - positioned to align with middle of the logo */}
-        <div className="hidden md:flex items-center pr-6 mt-[54px] sm:mt-[74px]">
-          <SocialLink 
-            href="https://github.com/IbrahimElsa" 
-            icon="devicon-github-original" 
-            label="GitHub"
-          />
-          <span className="text-gray-400 text-lg mx-3">✕</span>
-          <SocialLink 
-            href="https://linkedin.com/in/ibrahim-elsawalhi" 
-            icon="devicon-linkedin-plain" 
-            label="LinkedIn"
-          />
-          <span className="text-gray-400 text-lg mx-3">✕</span>
-          <SocialLink 
-            href="mailto:ibrahim@example.com" 
-            icon="fas fa-envelope" 
-            label="Email"
-          />
+        {/* Social links - desktop, absolutely positioned at the right edge */}
+        <div className="absolute right-6 top-0 h-[120px] hidden md:flex items-center">
+          {socialLinks.map((link, index) => (
+            <div key={link.label} className="flex items-center">
+              <SocialLink 
+                href={link.href} 
+                icon={link.icon} 
+                label={link.label}
+              />
+              {index < socialLinks.length - 1 && (
+                <span className="text-gray-400 text-lg mx-3">✕</span>
+              )}
+            </div>
+          ))}
         </div>
         
-        {/* Mobile menu button - aligned with the middle of the logo */}
+        {/* Mobile menu button - absolutely positioned at the right edge */}
         <button 
-          onClick={toggleMenu} 
-          className="md:hidden text-gray-100 focus:outline-none pr-4 sm:pr-6 mt-[54px] sm:mt-[74px]"
+          onClick={() => setIsMenuOpen(!isMenuOpen)} 
+          className="absolute right-6 top-0 h-[120px] md:hidden text-gray-100 focus:outline-none flex items-center"
           aria-label="Toggle mobile menu"
         >
           <svg 
@@ -81,28 +96,19 @@ export default function Navbar() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="md:hidden bg-zinc-800 mt-3 mx-4 rounded-lg shadow-lg overflow-hidden"
+          className="md:hidden bg-zinc-800/90 backdrop-blur-sm mx-4 rounded-lg shadow-lg overflow-hidden"
         >
           <div className="px-4 py-4">
             <div className="flex justify-around py-3">
-              <SocialLink 
-                href="https://github.com/IbrahimElsa" 
-                icon="devicon-github-original" 
-                label="GitHub"
-                isMobile
-              />
-              <SocialLink 
-                href="https://linkedin.com/in/ibrahim-elsawalhi" 
-                icon="devicon-linkedin-plain" 
-                label="LinkedIn"
-                isMobile
-              />
-              <SocialLink 
-                href="mailto:ibrahim@example.com" 
-                icon="fas fa-envelope" 
-                label="Email"
-                isMobile
-              />
+              {socialLinks.map((link) => (
+                <SocialLink 
+                  key={link.label}
+                  href={link.href} 
+                  icon={link.icon} 
+                  label={link.label}
+                  isMobile
+                />
+              ))}
             </div>
           </div>
         </motion.div>
