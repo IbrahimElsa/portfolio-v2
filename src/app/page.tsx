@@ -9,6 +9,19 @@ import { useVisitorNotification } from '@/lib/notify-service';
 import IntroWrapper from '@/components/IntroWrapper'; 
 import HeroSection from '@/components/HeroSection';
 
+interface Project {
+  title: string;
+  link: string;
+  image: string;
+  imageStyles?: string;
+  technologies: {
+    name: string;
+    icon?: string;
+    customIcon?: string;
+    hoverClass?: string;
+  }[];
+}
+
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   
@@ -65,26 +78,50 @@ export default function Home() {
                 onHoverEnd={handleHoverEnd}
                 onClick={() => handleTechClick(tech.name)}
               >
-                <motion.i
-                  className={`
-                    ${tech.icon} 
-                    text-6xl sm:text-7xl 
-                    cursor-pointer
-                    ${activeTech === tech.name ? 'active-tech scale-110' : 'grayscale'} 
-                    group-hover:grayscale-0 
-                    ${tech.hoverClass}
-                  `}
-                  animate={{ 
-                    scale: activeTech === tech.name ? 1.2 : 1,
-                  }}
-                  transition={{ duration: 0.2 }}
-                  whileHover={{ 
-                    scale: 1.2,
-                    transition: { 
-                      scale: { duration: 0.1, ease: "easeOut" },
-                    }
-                  }}
-                />
+                {tech.customIcon ? (
+                  <motion.div
+                    className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center cursor-pointer"
+                    animate={{ 
+                      scale: activeTech === tech.name ? 1.2 : 1,
+                    }}
+                    transition={{ duration: 0.2 }}
+                    whileHover={{ 
+                      scale: 1.2,
+                      transition: { 
+                        scale: { duration: 0.1, ease: "easeOut" },
+                      }
+                    }}
+                  >
+                    <Image 
+                      src={tech.customIcon} 
+                      alt={tech.name}
+                      width={80}
+                      height={80}
+                      className={`w-full h-full brightness-0 invert ${activeTech === tech.name ? 'opacity-60' : 'opacity-100'} group-hover:opacity-60 transition-all duration-300`}
+                    />
+                  </motion.div>
+                ) : (
+                  <motion.i
+                    className={`
+                      ${tech.icon} 
+                      text-6xl sm:text-7xl 
+                      cursor-pointer
+                      ${activeTech === tech.name ? 'active-tech scale-110' : 'grayscale'} 
+                      group-hover:grayscale-0 
+                      ${tech.hoverClass}
+                    `}
+                    animate={{ 
+                      scale: activeTech === tech.name ? 1.2 : 1,
+                    }}
+                    transition={{ duration: 0.2 }}
+                    whileHover={{ 
+                      scale: 1.2,
+                      transition: { 
+                        scale: { duration: 0.1, ease: "easeOut" },
+                      }
+                    }}
+                  />
+                )}
               </motion.div>
             ))}
           </div>
@@ -97,7 +134,7 @@ export default function Home() {
           <h2 className="text-4xl sm:text-6xl font-bold mb-20 text-center md:-mt-16">
             Projects
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {projects.map((project, index) => (
               <motion.a
                 key={index}
@@ -107,25 +144,37 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="project relative overflow-hidden rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                className="group project relative overflow-hidden rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
               >
                 <div className="absolute inset-0 z-0 overflow-hidden">
                   <Image
                     src={project.image}
                     alt={project.title}
                     fill
-                    className="object-cover transition-transform duration-300 transform scale-110 group-hover:scale-125"
+                    className={`${project.imageStyles || 'object-cover'} transition-transform duration-300 transform scale-110 group-hover:scale-120`}
                   />
                   <div className="absolute inset-0 bg-black opacity-60"></div>
                 </div>
 
                 <div className="relative z-10 p-6 pt-48 h-full flex flex-col justify-end text-white">
                   <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
-                  <div className="flex flex-wrap items-center gap-4 mb-2 text-xs sm:text-sm">
+                  <div className="grid grid-cols-2 gap-2 mb-2 text-xs sm:text-sm">
                     {project.technologies.map((tech, techIndex) => (
-                      <div key={techIndex} className="flex items-center space-x-2">
-                        <i className={`${tech.icon} text-3xl sm:text-4xl`}></i>
-                        <span>{tech.name}</span>
+                      <div key={techIndex} className="flex items-center space-x-1">
+                        <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center">
+                          {tech.customIcon ? (
+                            <Image 
+                              src={tech.customIcon} 
+                              alt={tech.name}
+                              width={32}
+                              height={32}
+                              className="w-full h-full brightness-0 invert group-hover:opacity-80 transition-all duration-300"
+                            />
+                          ) : (
+                            <i className={`${tech.icon} text-2xl sm:text-3xl grayscale group-hover:grayscale-0 transition-all duration-300 ${tech.hoverClass || ''}`}></i>
+                          )}
+                        </div>
+                        <span className="truncate">{tech.name}</span>
                       </div>
                     ))}
                   </div>
@@ -143,18 +192,36 @@ const technologies = [
   { name: 'HTML5', icon: 'devicon-html5-plain', hoverClass: 'group-hover:text-orange-500' },
   { name: 'CSS3', icon: 'devicon-css3-plain', hoverClass: 'group-hover:text-blue-500' },
   { name: 'JavaScript', icon: 'devicon-javascript-plain', hoverClass: 'group-hover:text-yellow-400' },
+  { name: 'TypeScript', icon: 'devicon-typescript-plain', hoverClass: 'group-hover:text-blue-600' },
   { name: 'React', icon: 'devicon-react-original', hoverClass: 'group-hover:text-cyan-400' },
+  { name: 'Next.js', customIcon: '/nextjs-icon.svg' },
+  { name: 'Angular', icon: 'devicon-angularjs-plain', hoverClass: 'group-hover:text-red-600' },
   { name: 'Python', icon: 'devicon-python-plain', hoverClass: 'group-hover:text-blue-600' },
   { name: 'Node.js', icon: 'devicon-nodejs-plain', hoverClass: 'group-hover:text-green-500' },
+  { name: 'Express', icon: 'devicon-express-original', hoverClass: 'group-hover:text-gray-400' },
   { name: 'MongoDB', icon: 'devicon-mongodb-plain', hoverClass: 'group-hover:text-green-600' },
   { name: 'MySQL', icon: 'devicon-mysql-plain', hoverClass: 'group-hover:text-blue-400' },
+  { name: 'PostgreSQL', icon: 'devicon-postgresql-plain', hoverClass: 'group-hover:text-blue-500' },
+  { name: 'Supabase', icon: 'devicon-supabase-plain', hoverClass: 'group-hover:text-green-400' },
   { name: 'Firebase', icon: 'devicon-firebase-plain', hoverClass: 'group-hover:text-yellow-500' },
   { name: 'Tailwind CSS', icon: 'devicon-tailwindcss-plain', hoverClass: 'group-hover:text-cyan-500' },
   { name: 'Bootstrap', icon: 'devicon-bootstrap-plain', hoverClass: 'group-hover:text-purple-500' },
   { name: 'C#', icon: 'devicon-csharp-plain', hoverClass: 'group-hover:text-purple-600' },
 ];
 
-const projects = [
+const projects: Project[] = [
+  {
+    title: 'folio.dev',
+    link: '#',
+    image: '/favicon-light.svg',
+    imageStyles: 'object-contain scale-[0.3] group-hover:scale-[0.35] transition-transform duration-300',
+    technologies: [
+      { name: 'Next.js', customIcon: '/nextjs-icon.svg' },
+      { name: 'Supabase', icon: 'devicon-supabase-plain', hoverClass: 'group-hover:text-green-400' },
+      { name: 'Tailwind', icon: 'devicon-tailwindcss-plain', hoverClass: 'group-hover:text-cyan-500' },
+      { name: 'JavaScript', icon: 'devicon-javascript-plain', hoverClass: 'group-hover:text-yellow-400' },
+    ],
+  },
   {
     title: 'Gym E-commerce Page',
     link: 'https://rossthesloth-gym.netlify.app',
