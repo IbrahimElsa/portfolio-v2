@@ -135,7 +135,7 @@ function SocialLink({
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "text-gray-300 hover:text-white transition-all duration-200",
+        "text-gray-300 hover:text-white transition-all duration-200 ",
         isMobile ? "text-3xl" : "text-2xl sm:text-3xl hover:scale-110"
       )}
       aria-label={label}

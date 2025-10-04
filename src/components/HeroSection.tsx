@@ -74,7 +74,7 @@ export default function HeroSection() {
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-900 to-transparent z-10"></div>
 
       {/* Content container */}
-      <div className="relative z-20 text-center px-4">
+      <div className="relative  text-center px-4">
         <div className="max-w-4xl mx-auto">
           {/* Name with gradient text effect */}
           <div className="mb-4 relative">
@@ -96,7 +96,7 @@ export default function HeroSection() {
           {/* Title text */}
           <TextMorph 
             as="h2" 
-            className="text-2xl sm:text-3xl md:text-4xl lg:whitespace-nowrap mt-2 mb-8
+            className="text-2xl sm:text-3xl md:text-4xl lg:whitespace-nowrap mt-2 mb-8 z-20
                      text-gray-100 font-light tracking-wide"
             style={{
               textShadow: '0 2px 4px rgba(0,0,0,0.2)'
@@ -110,7 +110,7 @@ export default function HeroSection() {
             className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8"
           >
             <a
-              href="/IbrahimElsawalhi_Resume.pdf"
+              href="/IbrahimElsawalhiResume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-4 bg-[#7928CA] hover:bg-[#8A3DD9]
