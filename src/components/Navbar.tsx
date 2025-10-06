@@ -96,10 +96,10 @@ export default function Navbar() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="md:hidden bg-zinc-800/90 backdrop-blur-sm mx-4 rounded-lg shadow-lg overflow-hidden"
+          className="md:hidden bg-zinc-800/90 m-3 mt-0 rounded-lg shadow-lg overflow-hidden"
         >
           <div className="px-4 py-4">
-            <div className="flex justify-around py-3">
+            <div className="flex justify-around py-1">
               {socialLinks.map((link) => (
                 <SocialLink 
                   key={link.label}

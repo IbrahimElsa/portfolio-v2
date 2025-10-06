@@ -158,7 +158,7 @@ export default function Home() {
 
                 <div className="relative z-10 p-6 pt-48 h-full flex flex-col justify-end text-white">
                   <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
-                  <div className="grid grid-cols-2 gap-2 mb-2 text-xs sm:text-sm">
+                  <div className="grid grid-cols-3 sm:grid-cols-2 gap-2 mb-2 text-xs sm:text-sm">
                     {project.technologies.map((tech, techIndex) => (
                       <div key={techIndex} className="flex items-center space-x-1">
                         <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center">
@@ -174,7 +174,7 @@ export default function Home() {
                             <i className={`${tech.icon} text-2xl sm:text-3xl grayscale group-hover:grayscale-0 transition-all duration-300 ${tech.hoverClass || ''}`}></i>
                           )}
                         </div>
-                        <span className="truncate">{tech.name}</span>
+                        <span className="truncate hidden sm:block">{tech.name}</span>
                       </div>
                     ))}
                   </div>
