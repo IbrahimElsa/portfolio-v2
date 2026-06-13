@@ -1,254 +1,194 @@
 @import "tailwindcss";
 
-@plugin "tailwindcss-animate";
-
-@custom-variant dark (&:is(.dark *));
-
-/* Modify the existing project cards to add colored technology icon transitions */
-.project {
-    /* Base state: grayscale icons */
-    .devicon-html5-plain,
-    .devicon-css3-plain,
-    .devicon-javascript-plain,
-    .devicon-react-original,
-    .devicon-python-plain,
-    .devicon-mongodb-plain,
-    .devicon-nodejs-plain,
-    .devicon-firebase-plain,
-    .devicon-mysql-plain,
-    .devicon-tailwindcss-original,
-    .devicon-bootstrap-plain,
-    .devicon-csharp-plain {
-        filter: grayscale(100%);
-        transition: filter 0.3s ease;
-    }
-
-    /* Hover state: remove grayscale and add colors */
-    &:hover {
-        .devicon-html5-plain {
-            filter: grayscale(0%);
-            color: #E34F26;
-        }
-        .devicon-css3-plain {
-            filter: grayscale(0%);
-            color: #1572B6;
-        }
-        .devicon-javascript-plain {
-            filter: grayscale(0%);
-            color: #F7DF1E;
-        }
-        .devicon-react-original {
-            filter: grayscale(0%);
-            color: #61DAFB;
-        }
-        .devicon-python-plain {
-            filter: grayscale(0%);
-            color: #3776AB;
-        }
-        .devicon-mongodb-plain {
-            filter: grayscale(0%);
-            color: #47A248;
-        }
-        .devicon-nodejs-plain {
-            filter: grayscale(0%);
-            color: #339933;
-        }
-        .devicon-firebase-plain {
-            filter: grayscale(0%);
-            color: #FFCA28;
-        }
-        .devicon-mysql-plain {
-            filter: grayscale(0%);
-            color: #4479A1;
-        }
-        .devicon-tailwindcss-original {
-            filter: grayscale(0%);
-            color: #06B6D4;
-        }
-        .devicon-bootstrap-plain {
-            filter: grayscale(0%);
-            color: #7952B3;
-        }
-        .devicon-csharp-plain {
-            filter: grayscale(0%);
-            color: #239120;
-        }
-    }
-}
-
-/* Add these styles to your src/app/globals.css file */
-
-/* Enhanced active tech styling */
-.active-tech {
-    filter: grayscale(0%) !important;
-    transform: scale(1.2);
-    transition: transform 0.2s ease, filter 0.2s ease, color 0.2s ease;
-  }
-  
-  /* Tech-specific color classes when active */
-  .devicon-html5-plain.active-tech {
-    color: #E34F26 !important;
-  }
-  
-  .devicon-css3-plain.active-tech {
-    color: #1572B6 !important;
-  }
-  
-  .devicon-javascript-plain.active-tech {
-    color: #F7DF1E !important;
-  }
-  
-  .devicon-react-original.active-tech {
-    color: #61DAFB !important;
-  }
-  
-  .devicon-python-plain.active-tech {
-    color: #3776AB !important;
-  }
-  
-  .devicon-nodejs-plain.active-tech {
-    color: #339933 !important;
-  }
-  
-  .devicon-mongodb-plain.active-tech {
-    color: #47A248 !important;
-  }
-  
-  .devicon-mysql-plain.active-tech {
-    color: #4479A1 !important;
-  }
-  
-  .devicon-firebase-plain.active-tech {
-    color: #FFCA28 !important;
-  }
-  
-  .devicon-tailwindcss-plain.active-tech {
-    color: #06B6D4 !important;
-  }
-  
-  .devicon-bootstrap-plain.active-tech {
-    color: #7952B3 !important;
-  }
-  
-  .devicon-csharp-plain.active-tech {
-    color: #239120 !important;
-  }
-
-:root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.13 0.028 261.692);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.13 0.028 261.692);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.13 0.028 261.692);
-    --primary: oklch(0.21 0.034 264.665);
-    --primary-foreground: oklch(0.985 0.002 247.839);
-    --secondary: oklch(0.967 0.003 264.542);
-    --secondary-foreground: oklch(0.21 0.034 264.665);
-    --muted: oklch(0.967 0.003 264.542);
-    --muted-foreground: oklch(0.551 0.027 264.364);
-    --accent: oklch(0.967 0.003 264.542);
-    --accent-foreground: oklch(0.21 0.034 264.665);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
-    --border: oklch(0.928 0.006 264.531);
-    --input: oklch(0.928 0.006 264.531);
-    --ring: oklch(0.872 0.01 258.338);
-    --chart-1: oklch(0.646 0.222 41.116);
-    --chart-2: oklch(0.6 0.118 184.704);
-    --chart-3: oklch(0.398 0.07 227.392);
-    --chart-4: oklch(0.828 0.189 84.429);
-    --chart-5: oklch(0.769 0.188 70.08);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0.002 247.839);
-    --sidebar-foreground: oklch(0.13 0.028 261.692);
-    --sidebar-primary: oklch(0.21 0.034 264.665);
-    --sidebar-primary-foreground: oklch(0.985 0.002 247.839);
-    --sidebar-accent: oklch(0.967 0.003 264.542);
-    --sidebar-accent-foreground: oklch(0.21 0.034 264.665);
-    --sidebar-border: oklch(0.928 0.006 264.531);
-    --sidebar-ring: oklch(0.872 0.01 258.338);
-}
-
-.dark {
-    --background: oklch(0.13 0.028 261.692);
-    --foreground: oklch(0.985 0.002 247.839);
-    --card: oklch(0.13 0.028 261.692);
-    --card-foreground: oklch(0.985 0.002 247.839);
-    --popover: oklch(0.13 0.028 261.692);
-    --popover-foreground: oklch(0.985 0.002 247.839);
-    --primary: oklch(0.985 0.002 247.839);
-    --primary-foreground: oklch(0.21 0.034 264.665);
-    --secondary: oklch(0.278 0.033 256.848);
-    --secondary-foreground: oklch(0.985 0.002 247.839);
-    --muted: oklch(0.278 0.033 256.848);
-    --muted-foreground: oklch(0.707 0.022 261.325);
-    --accent: oklch(0.278 0.033 256.848);
-    --accent-foreground: oklch(0.985 0.002 247.839);
-    --destructive: oklch(0.396 0.141 25.723);
-    --destructive-foreground: oklch(0.637 0.237 25.331);
-    --border: oklch(0.278 0.033 256.848);
-    --input: oklch(0.278 0.033 256.848);
-    --ring: oklch(0.446 0.03 256.802);
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
-    --chart-3: oklch(0.769 0.188 70.08);
-    --chart-4: oklch(0.627 0.265 303.9);
-    --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: oklch(0.21 0.034 264.665);
-    --sidebar-foreground: oklch(0.985 0.002 247.839);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0.002 247.839);
-    --sidebar-accent: oklch(0.278 0.033 256.848);
-    --sidebar-accent-foreground: oklch(0.985 0.002 247.839);
-    --sidebar-border: oklch(0.278 0.033 256.848);
-    --sidebar-ring: oklch(0.446 0.03 256.802);
+@theme {
+  --color-bg: #0a0a0b;
+  --color-panel: #0f0f11;
+  --color-panel-2: #141417;
+  --color-line: #232328;
+  --color-line-bright: #3c3c44;
+  --color-ink: #e8e6e1;
+  --color-muted: #87847c;
+  --color-amber: #ffb000;
+  --color-amber-dim: #cc8d00;
+  --color-green: #3fe07e;
+  --color-red: #ff4d4d;
 }
 
 @theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --color-card: var(--card);
-    --color-card-foreground: var(--card-foreground);
-    --color-popover: var(--popover);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-primary: var(--primary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-secondary: var(--secondary);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-muted: var(--muted);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-accent: var(--accent);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-destructive: var(--destructive);
-    --color-destructive-foreground: var(--destructive-foreground);
-    --color-border: var(--border);
-    --color-input: var(--input);
-    --color-ring: var(--ring);
-    --color-chart-1: var(--chart-1);
-    --color-chart-2: var(--chart-2);
-    --color-chart-3: var(--chart-3);
-    --color-chart-4: var(--chart-4);
-    --color-chart-5: var(--chart-5);
-    --radius-sm: calc(var(--radius) - 4px);
-    --radius-md: calc(var(--radius) - 2px);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) + 4px);
-    --color-sidebar: var(--sidebar);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-ring: var(--sidebar-ring);
+  --font-display: var(--font-anton), sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
+html {
+  scroll-behavior: smooth;
+  background: var(--color-bg);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-amber);
+  color: #0a0a0b;
+}
+
+/* ---- scrollbar ---- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+  border-left: 1px solid var(--color-line);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line-bright);
+  border: 2px solid var(--color-bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-amber);
+}
+
+/* ---- custom cursor: hide native on fine pointers when active ---- */
+@media (pointer: fine) {
+  body.custom-cursor,
+  body.custom-cursor a,
+  body.custom-cursor button {
+    cursor: none;
+  }
+}
+
+/* ---- texture overlays ---- */
+.scanlines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.22) 3px,
+    transparent 4px
+  );
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+}
+
+.noise {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 81;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- rack hardware bits ---- */
+.screw {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--color-line-bright);
+  background:
+    linear-gradient(45deg, transparent 44%, var(--color-line-bright) 44%, var(--color-line-bright) 56%, transparent 56%),
+    radial-gradient(circle at 35% 30%, #2c2c33, #131316);
+  flex: none;
+}
+
+.rack-rail {
+  background-image: radial-gradient(circle at center, var(--color-line) 3px, transparent 3.5px);
+  background-size: 100% 48px;
+  background-position: center;
+}
+
+.led {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  flex: none;
+}
+.led-green {
+  background: var(--color-green);
+  box-shadow: 0 0 6px var(--color-green), 0 0 14px rgba(63, 224, 126, 0.4);
+  animation: led-pulse 2.4s ease-in-out infinite;
+}
+.led-amber {
+  background: var(--color-amber);
+  box-shadow: 0 0 6px var(--color-amber), 0 0 14px rgba(255, 176, 0, 0.4);
+}
+.led-red {
+  background: var(--color-red);
+  box-shadow: 0 0 6px var(--color-red);
+}
+.led-off {
+  background: #2a2a30;
+}
+.led-blink {
+  animation: led-blink 1.1s steps(2, jump-none) infinite;
+}
+
+/* ---- text helpers ---- */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-ink);
+}
+.text-outline-amber {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-amber);
+}
+
+.caret::after {
+  content: "▍";
+  color: var(--color-amber);
+  animation: led-blink 1s steps(2, jump-none) infinite;
+}
+
+/* ---- marquee ---- */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+/* ---- keyframes ---- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes led-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.15; }
+}
+
+@keyframes led-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.6; }
+  94% { opacity: 1; }
+  97% { opacity: 0.8; }
+  98% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee-track,
+  .led-green,
+  .led-blink,
+  .caret::after {
+    animation: none !important;
+  }
 }

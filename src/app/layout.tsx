@@ -1,22 +1,25 @@
-// app/layout.tsx
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Anton, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "../components/Navbar";
+import Cursor from "@/components/Cursor";
+import TopBar from "@/components/TopBar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const anton = Anton({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-anton",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plexMono = IBM_Plex_Mono({
+  weight: ["400", "500", "600"],
   subsets: ["latin"],
+  variable: "--font-plex-mono",
 });
 
 export const metadata: Metadata = {
-  title: "Ibrahim E. Portfolio",
-  description: "Full Stack Developer Portfolio",
+  title: "IBRAHIM ELSAWALHI — Full-Stack Developer & Homelab Operator",
+  description:
+    "Portfolio of Ibrahim Elsawalhi: full-stack developer and homelab operator. Builder of web apps and self-hosted infrastructure. Find the lab content at @bigibz1.",
 };
 
 export default function RootLayout({
@@ -26,21 +29,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link 
-          rel="stylesheet" 
-          type="text/css" 
-          href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" 
+      <body className={`${anton.variable} ${plexMono.variable} antialiased`}>
+        <Cursor />
+        <TopBar />
+        {/* fixed rack rails framing the whole site */}
+        <div
+          aria-hidden
+          className="rack-rail fixed inset-y-0 left-0 z-30 hidden w-8 border-r border-line bg-panel lg:block"
         />
-        <link 
-          rel="stylesheet" 
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" 
+        <div
+          aria-hidden
+          className="rack-rail fixed inset-y-0 right-0 z-30 hidden w-8 border-l border-line bg-panel lg:block"
         />
-      </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} relative`}>
-
-        <Navbar />
         {children}
+        <div aria-hidden className="scanlines" />
+        <div aria-hidden className="noise" />
       </body>
     </html>
   );
