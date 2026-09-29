@@ -1,172 +1,117 @@
-import React from 'react';
-import { TextMorph } from '@/components/ui/text-morph';
+'use client';
+
+import { motion } from 'framer-motion';
+import { ArrowDown, ArrowUpRight, FileText } from 'lucide-react';
+import { allLinks, CREATOR_HANDLE } from '@/lib/socials';
+import SocialIcon from '@/components/SocialIcon';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.08 * i },
+  }),
+};
 
 export default function HeroSection() {
   return (
     <section
-      id="about"
-      className="relative h-screen w-full overflow-hidden flex items-center justify-center"
+      id="top"
+      className="relative flex min-h-screen items-center overflow-hidden pt-16"
     >
-      {/* Dreamy gradient background with blur effect - improved cross-browser compatibility */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        {/* Base gradient background - more consistent across browsers */}
-        <div 
-          className="absolute inset-0 bg-[#2D1B69] bg-opacity-90"
-          style={{
-            backgroundImage: 'linear-gradient(to bottom right, #2D1B69, #1F1147, #191042)',
-          }}
-        />
-        
-        {/* Fixed, explicitly positioned orbs with slow animation for better cross-browser consistency */}
-        <div 
-          className="absolute top-[15%] left-[20%] w-[450px] h-[450px] rounded-full bg-[#4B2C85]"
-          style={{
-            filter: 'blur(80px)',
-            opacity: 0.6,
-            animation: 'float1 25s ease-in-out infinite',
-          }}
-        />
-        
-        <div 
-          className="absolute top-[40%] right-[25%] w-[400px] h-[400px] rounded-full bg-[#2C3E85]"
-          style={{
-            filter: 'blur(70px)',
-            opacity: 0.5,
-            animation: 'float2 30s ease-in-out infinite',
-          }}
-        />
-        
-        <div 
-          className="absolute bottom-[20%] right-[35%] w-[350px] h-[350px] rounded-full bg-[#48277B]"
-          style={{
-            filter: 'blur(70px)',
-            opacity: 0.5,
-            animation: 'float3 20s ease-in-out infinite',
-          }}
-        />
-        
-        {/* CSS animations for the floating effect */}
-        <style jsx>{`
-          @keyframes float1 {
-            0% { transform: translate(0, 0); }
-            25% { transform: translate(30px, -20px); }
-            50% { transform: translate(10px, 30px); }
-            75% { transform: translate(-20px, 10px); }
-            100% { transform: translate(0, 0); }
-          }
-          
-          @keyframes float2 {
-            0% { transform: translate(0, 0); }
-            33% { transform: translate(-25px, 15px); }
-            66% { transform: translate(25px, 20px); }
-            100% { transform: translate(0, 0); }
-          }
-          
-          @keyframes float3 {
-            0% { transform: translate(0, 0); }
-            50% { transform: translate(25px, -15px); }
-            100% { transform: translate(0, 0); }
-          }
-        `}</style>
-      </div>
+      <div className="hero-glow pointer-events-none absolute inset-0" aria-hidden />
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bg to-transparent"
+        aria-hidden
+      />
 
-      {/* Optional overlay to ensure smooth transition to your site's base color */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-900 to-transparent z-10"></div>
+      <div className="container-page relative py-24 sm:py-32">
+        <motion.p
+          className="eyebrow mb-6 flex items-center gap-2"
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={0}
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+          </span>
+          Full Stack Developer · Content Creator
+        </motion.p>
 
-      {/* Content container */}
-      <div className="relative  text-center px-4">
-        <div className="max-w-4xl mx-auto">
-          {/* Name with gradient text effect */}
-          <div className="mb-4 relative">
-            <TextMorph 
-              as="h1" 
-              className="font-bold text-4xl sm:text-5xl md:text-7xl lg:text-8xl
-                        text-transparent"
-              style={{
-                backgroundImage: 'linear-gradient(to right, #c88dba 15%, #a88fcc 50%, #c8b39e 85%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                textShadow: '0 2px 4px rgba(0,0,0,0.1)'
-              }}
-            >
-              Ibrahim Elsawalhi
-            </TextMorph>
-          </div>
-          
-          {/* Title text */}
-          <TextMorph 
-            as="h2" 
-            className="text-2xl sm:text-3xl md:text-4xl lg:whitespace-nowrap mt-2 mb-8 z-20
-                     text-gray-100 font-light tracking-wide"
-            style={{
-              textShadow: '0 2px 4px rgba(0,0,0,0.2)'
-            }}
+        <motion.h1
+          className="max-w-4xl text-balance text-5xl font-semibold leading-[1.02] tracking-[-0.03em] text-fg sm:text-6xl md:text-7xl lg:text-8xl"
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={1}
+        >
+          Ibrahim Elsawalhi
+        </motion.h1>
+
+        <motion.p
+          className="mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-fg-muted sm:text-xl"
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={2}
+        >
+          I build full-stack web apps with React, Next.js and Node, and I share
+          homelab builds, 3D printing and tech reviews as{' '}
+          <span className="font-medium text-fg">{CREATOR_HANDLE}</span>.
+        </motion.p>
+
+        <motion.div
+          className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={3}
+        >
+          <a
+            href="#projects"
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-fg px-6 text-sm font-medium text-bg transition-colors hover:bg-white"
           >
-            Full Stack Developer
-          </TextMorph>
-          
-          {/* Action buttons */}
-          <div 
-            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8"
+            View work
+            <ArrowDown className="h-4 w-4" />
+          </a>
+          <a
+            href="/IbrahimElsawalhiResume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-border-strong px-6 text-sm font-medium text-fg transition-colors hover:bg-white/5"
           >
-            <a
-              href="/IbrahimElsawalhiResume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-4 bg-[#7928CA] hover:bg-[#8A3DD9]
-                         text-white rounded-md
-                         transition-all duration-300 hover:scale-105 shadow-lg
-                         flex items-center justify-center 
-                         space-x-2 w-48 sm:w-auto font-medium"
-              aria-label="Download Resume"
-            >
-              <i className="fas fa-file-alt"></i>
-              <span>View Resume</span>
-            </a>
-            
-            <a
-              href="#projects"
-              className="px-8 py-4 bg-white/10 backdrop-blur-lg
-                         text-white rounded-md border border-white/20
-                         hover:bg-white/20 transition-all duration-300 
-                         hover:scale-105 shadow-lg flex items-center 
-                         justify-center space-x-2 w-48 sm:w-auto"
-              aria-label="View Projects"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('projects')?.scrollIntoView({ 
-                  behavior: 'smooth' 
-                });
-              }}
-            >
-              <i className="fas fa-code"></i>
-              <span>View Projects</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      
-      {/* Scroll indicator */}
-      <div 
-        className="absolute bottom-12 left-0 right-0 flex justify-center z-20 animate-bounce"
-        style={{ animation: 'bounce 2s infinite' }}
-      >
-        <button className="text-gray-300 hover:text-white transition duration-200 focus:outline-none">
-          <svg
-            className="w-8 h-8 sm:w-10 sm:h-10"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </button>
+            <FileText className="h-4 w-4" />
+            Resume
+            <ArrowUpRight className="h-4 w-4 text-fg-subtle" />
+          </a>
+        </motion.div>
+
+        <motion.ul
+          className="mt-12 flex flex-wrap items-center gap-2"
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          custom={4}
+          aria-label="Social links"
+        >
+          {allLinks.map((link) => (
+            <li key={link.key}>
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={link.label}
+                title={link.label}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface/60 text-fg-muted transition-all hover:-translate-y-0.5 hover:border-border-strong hover:text-fg"
+              >
+                <SocialIcon name={link.key} className="h-[18px] w-[18px]" />
+              </a>
+            </li>
+          ))}
+        </motion.ul>
       </div>
     </section>
   );

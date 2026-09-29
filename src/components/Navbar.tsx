@@ -1,146 +1,146 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { allLinks } from '@/lib/socials';
+import SocialIcon from '@/components/SocialIcon';
+
+const NAV_ITEMS = [
+  { href: '#projects', label: 'Work' },
+  { href: '#stack', label: 'Stack' },
+  { href: '#content', label: 'Content' },
+  { href: '#contact', label: 'Contact' },
+];
+
+const quickLinks = allLinks.filter((l) =>
+  ['github', 'linkedin', 'youtube'].includes(l.key),
+);
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  
-  // Social links data for reuse
-  const socialLinks = [
-    { href: "https://github.com/IbrahimElsa", icon: "devicon-github-original", label: "GitHub" },
-    { href: "https://linkedin.com/in/ibrahim-elsawalhi", icon: "devicon-linkedin-plain", label: "LinkedIn" },
-    { href: "mailto:ibrahim@example.com", icon: "fas fa-envelope", label: "Email" }
-  ];
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  // Handle scroll events
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Calculate navbar styles based on scroll position
-  const isScrolled = scrollPosition > 50;
-  
+  // Close the mobile menu when the viewport grows past the breakpoint.
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const onChange = () => {
+      if (mq.matches) setOpen(false);
+    };
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
   return (
-    <nav 
+    <header
       className={cn(
-        "fixed w-full z-20 transition-all duration-300",
-        isScrolled ? "bg-zinc-900/70 backdrop-blur-sm shadow-md" : "bg-transparent"
+        'fixed inset-x-0 top-0 z-40 transition-colors duration-300',
+        scrolled || open
+          ? 'border-b border-border bg-bg/80 backdrop-blur-md'
+          : 'border-b border-transparent bg-transparent',
       )}
     >
-      {/* Fixed-position bar for absolute positioning of elements */}
-      <div className="relative h-[120px]">
-        {/* Logo area - left side, no positioning needed as it's already there */}
-        <div className="absolute left-0 top-0 w-[120px] h-[120px]"></div>
-        
-        {/* Social links - desktop, absolutely positioned at the right edge */}
-        <div className="absolute right-6 top-0 h-[120px] hidden md:flex items-center">
-          {socialLinks.map((link, index) => (
-            <div key={link.label} className="flex items-center">
-              <SocialLink 
-                href={link.href} 
-                icon={link.icon} 
-                label={link.label}
-              />
-              {index < socialLinks.length - 1 && (
-                <span className="text-gray-400 text-lg mx-3">✕</span>
-              )}
-            </div>
+      <nav className="flex h-16 items-center px-5 sm:px-6" aria-label="Primary">
+        {/* The logo itself is rendered by IntroWrapper and lands in this slot. */}
+        <a href="#top" className="flex items-center gap-3" aria-label="Back to top">
+          <span className="block h-11 w-11 shrink-0" aria-hidden />
+          <span className="hidden text-sm font-medium tracking-tight text-fg sm:block">
+            Ibrahim Elsawalhi
+          </span>
+        </a>
+
+        <ul className="mx-auto hidden items-center gap-1 md:flex">
+          {NAV_ITEMS.map((item) => (
+            <li key={item.href}>
+              <a
+                href={item.href}
+                className="rounded-full px-3.5 py-1.5 text-sm text-fg-muted transition-colors hover:bg-white/5 hover:text-fg"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div className="ml-auto hidden items-center gap-1 md:flex">
+          {quickLinks.map((link) => (
+            <a
+              key={link.key}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={link.label}
+              className="rounded-full p-2 text-fg-muted transition-colors hover:bg-white/5 hover:text-fg"
+            >
+              <SocialIcon name={link.key} className="h-[18px] w-[18px]" />
+            </a>
           ))}
         </div>
-        
-        {/* Mobile menu button - absolutely positioned at the right edge */}
-        <button 
-          onClick={() => setIsMenuOpen(!isMenuOpen)} 
-          className="absolute right-6 top-0 h-[120px] md:hidden text-gray-100 focus:outline-none flex items-center"
-          aria-label="Toggle mobile menu"
+
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          className="ml-auto rounded-full p-2 text-fg-muted transition-colors hover:bg-white/5 hover:text-fg md:hidden"
         >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            className="h-6 w-6" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
-          >
-            {isMenuOpen ? (
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M6 18L18 6M6 6l12 12" 
-              />
-            ) : (
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M4 6h16M4 12h16M4 18h16" 
-              />
-            )}
-          </svg>
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
-      </div>
+      </nav>
 
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <motion.div 
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="md:hidden bg-zinc-800/90 m-3 mt-0 rounded-lg shadow-lg overflow-hidden"
-        >
-          <div className="px-4 py-4">
-            <div className="flex justify-around py-1">
-              {socialLinks.map((link) => (
-                <SocialLink 
-                  key={link.label}
-                  href={link.href} 
-                  icon={link.icon} 
-                  label={link.label}
-                  isMobile
-                />
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="mobile-menu"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="border-t border-border px-5 pb-6 pt-4 md:hidden"
+          >
+            <ul className="flex flex-col">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    className="block py-2.5 text-base text-fg-muted transition-colors hover:text-fg"
+                  >
+                    {item.label}
+                  </a>
+                </li>
               ))}
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </nav>
-  );
-}
+            </ul>
 
-// Social link component
-function SocialLink({ 
-  href, 
-  icon, 
-  label,
-  isMobile = false
-}: { 
-  href: string; 
-  icon: string; 
-  label: string;
-  isMobile?: boolean;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={cn(
-        "text-gray-300 hover:text-white transition-all duration-200 ",
-        isMobile ? "text-3xl" : "text-2xl sm:text-3xl hover:scale-110"
-      )}
-      aria-label={label}
-    >
-      <i className={icon}></i>
-    </a>
+            <div className="mt-4 border-t border-border pt-4">
+              <p className="eyebrow mb-3">Find me</p>
+              <div className="flex flex-wrap gap-2">
+                {allLinks.map((link) => (
+                  <a
+                    key={link.key}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.label}
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-fg-muted transition-colors hover:border-border-strong hover:text-fg"
+                  >
+                    <SocialIcon name={link.key} className="h-[18px] w-[18px]" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }
