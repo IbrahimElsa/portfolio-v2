@@ -11,12 +11,12 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
     // Step 1: Assembly animation - faster now (1.8s instead of 3s)
     const step2Timer = setTimeout(() => {
       setAnimationStep(2); // Start moving to corner and show content
-    }, 1800);
+    }, 1400);
     
     // Complete animation after transition to corner
     const completeTimer = setTimeout(() => {
       setAnimationComplete(true);
-    }, 2700);
+    }, 2200);
     
     return () => {
       clearTimeout(step2Timer);
@@ -32,10 +32,10 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
         <div
           style={{ 
             position: 'fixed',
-            top: '0px',
-            left: '0px',
-            width: '120px',
-            height: '120px',
+            top: '10px',
+            left: '20px',
+            width: '44px',
+            height: '44px',
             zIndex: 50,
             pointerEvents: 'none'
           }}
@@ -98,10 +98,10 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
               x: "-50%",
               y: "-50%"
             } : {
-              width: "120px", 
-              height: "120px",
-              top: "0px",
-              left: "0px",
+              width: "44px", 
+              height: "44px",
+              top: "10px",
+              left: "20px",
               x: "0%",
               y: "0%"
             }
@@ -267,7 +267,7 @@ export default function IntroWrapper({ children }: { children: React.ReactNode }
       {/* Background overlay - only during assembly, fades when moving to corner */}
       {!animationComplete && (
         <motion.div 
-          className="fixed inset-0 z-40 bg-zinc-900"
+          className="fixed inset-0 z-40 bg-bg"
           initial={{ opacity: 1 }}
           animate={{ 
             opacity: animationStep === 1 ? 1 : 0 
