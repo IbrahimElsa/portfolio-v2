@@ -48,7 +48,7 @@ export default function Navbar() {
           : 'border-b border-transparent bg-transparent',
       )}
     >
-      <nav className="flex h-16 items-center px-5 sm:px-6" aria-label="Primary">
+      <nav className="relative flex h-16 items-center px-5 sm:px-6" aria-label="Primary">
         {/* The logo itself is rendered by IntroWrapper and lands in this slot. */}
         <a href="#top" className="flex items-center gap-3" aria-label="Back to top">
           <span className="block h-11 w-11 shrink-0" aria-hidden />
@@ -57,7 +57,7 @@ export default function Navbar() {
           </span>
         </a>
 
-        <ul className="mx-auto hidden items-center gap-1 md:flex">
+        <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 md:flex">
           {NAV_ITEMS.map((item) => (
             <li key={item.href}>
               <a
