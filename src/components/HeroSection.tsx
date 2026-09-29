@@ -71,10 +71,10 @@ export default function HeroSection() {
           custom={3}
         >
           <a
-            href="#projects"
+            href="#content"
             className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-fg px-6 text-sm font-medium text-bg transition-colors hover:bg-white"
           >
-            View work
+            See my content
             <ArrowDown className="h-4 w-4" />
           </a>
           <a

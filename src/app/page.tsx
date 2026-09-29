@@ -15,9 +15,9 @@ export default function Home() {
     <IntroWrapper>
       <main className="bg-dots">
         <HeroSection />
-        <ProjectsSection />
-        <TechSection />
         <CreatorSection />
+        <TechSection />
+        <ProjectsSection />
       </main>
       <ContactSection />
     </IntroWrapper>

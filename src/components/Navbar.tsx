@@ -8,9 +8,9 @@ import { allLinks } from '@/lib/socials';
 import SocialIcon from '@/components/SocialIcon';
 
 const NAV_ITEMS = [
-  { href: '#projects', label: 'Work' },
-  { href: '#stack', label: 'Stack' },
   { href: '#content', label: 'Content' },
+  { href: '#stack', label: 'Stack' },
+  { href: '#projects', label: 'Work' },
   { href: '#contact', label: 'Contact' },
 ];
 
@@ -44,7 +44,7 @@ export default function Navbar() {
       className={cn(
         'fixed inset-x-0 top-0 z-40 transition-colors duration-300',
         scrolled || open
-          ? 'border-b border-border bg-bg/80 backdrop-blur-md'
+          ? 'border-b border-border bg-bg/95 backdrop-blur-md'
           : 'border-b border-transparent bg-transparent',
       )}
     >
