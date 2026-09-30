@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowDown, ArrowUpRight, FileText } from 'lucide-react';
 import { allLinks, CREATOR_HANDLE } from '@/lib/socials';
 import SocialIcon from '@/components/SocialIcon';
+import { useIntroReady } from '@/components/IntroWrapper';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
@@ -15,6 +16,8 @@ const fadeUp = {
 };
 
 export default function HeroSection() {
+  // Hold the entrance animations until the intro overlay starts lifting.
+  const state = useIntroReady() ? 'show' : 'hidden';
   return (
     <section
       id="top"
@@ -31,7 +34,7 @@ export default function HeroSection() {
           className="eyebrow mb-6 flex items-center gap-2"
           variants={fadeUp}
           initial="hidden"
-          animate="show"
+          animate={state}
           custom={0}
         >
           <span className="relative flex h-2 w-2">
@@ -45,7 +48,7 @@ export default function HeroSection() {
           className="max-w-4xl text-balance text-5xl font-semibold leading-[1.02] tracking-[-0.03em] text-fg sm:text-6xl md:text-7xl lg:text-8xl"
           variants={fadeUp}
           initial="hidden"
-          animate="show"
+          animate={state}
           custom={1}
         >
           Ibrahim Elsawalhi
@@ -55,7 +58,7 @@ export default function HeroSection() {
           className="mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-fg-muted sm:text-xl"
           variants={fadeUp}
           initial="hidden"
-          animate="show"
+          animate={state}
           custom={2}
         >
           I build full-stack web apps with React, Next.js and Node, and I share
@@ -67,7 +70,7 @@ export default function HeroSection() {
           className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
           variants={fadeUp}
           initial="hidden"
-          animate="show"
+          animate={state}
           custom={3}
         >
           <a
@@ -93,7 +96,7 @@ export default function HeroSection() {
           className="mt-12 flex flex-wrap items-center gap-2"
           variants={fadeUp}
           initial="hidden"
-          animate="show"
+          animate={state}
           custom={4}
           aria-label="Social links"
         >
